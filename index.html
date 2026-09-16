@@ -1077,7 +1077,7 @@ if (linkInstagramEl) {
     $('term1').checked = false; $('term2').checked = false; $('term3').checked = false;
     $('modalServiceName').textContent = service.name;
     $('modalProvider').innerHTML = service.account
-      ? `مقدّم الخدمة: <b>${escapeHtml(service.provider)}</b> — <a href="${service.account}" target="_blank" rel="noopener">عرض الحساب ↗</a>`
+      ? `مقدّم الخدمة: <b>${escapeHtml(service.provider)}</b> — <a href="${service.account}" target="_blank" rel="noopener">عرض الحساب </a>`
       : `مقدّم الخدمة: <b>${escapeHtml(service.provider)}</b>`;
     $('modal').classList.add('active');
     document.body.style.overflow = 'hidden';
