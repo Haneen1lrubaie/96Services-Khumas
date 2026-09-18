@@ -7,23 +7,28 @@
 <meta name="description" content="٩٦ خدمة مقدَّمة من مجتمع خماس احتفالًا باليوم الوطني السعودي الـ٩٦. كل خدمة تُحجز تركّب قطعة من خريطة الوطن.">
 
 <!-- ==========================================================================================
-  إعداد سريع:
+  إعداد سريع (نسخة محمية — التوكن لم يعد داخل هذا الملف إطلاقًا):
   1) الصفحة تعمل حاليًا بوضع "عرض تجريبي" (DEMO_MODE=true) من مصفوفة SERVICES بالأسفل داخل
      وسم <script> — بدون أي حاجة لإعداد خارجي، مثالية للتجربة والعرض الداخلي.
   2) عدّلي provider و link لكل خدمة داخل SERVICES بأسماء وحسابات مقدّمي الخدمة الحقيقية.
-  3) عند الإطلاق الفعلي للجمهور، الحجوزات تُجمع في Airtable (الاسم + الخدمة + رقم العميل +
-     حساب مقدم الخدمة). الخطوات:
-       أ) أنشئي جدول (Table) في Airtable بنفس اسم CONFIG.AIRTABLE_TABLE_NAME، وفيه بالضبط
-          هذه الأعمدة (Single line text لكل عمود): الاسم، الخدمة، رقم العميل، حساب مقدم
-          الخدمة، معرف الخدمة، مقدم الخدمة.
-       ب) من صفحة الـ Base خذي الـ Base ID (يبدأ بـ app...) والصقيه في AIRTABLE_BASE_ID.
-       ج) أنشئي Personal Access Token من airtable.com/create/tokens بصلاحيات
-          data.records:read و data.records:write على هذا الـ Base فقط (مهم أمنيًا — لا
-          تعطيه صلاحيات أوسع)، والصقيه في AIRTABLE_TOKEN.
+  3) عند الإطلاق الفعلي للجمهور، الحجوزات تُجمع في Airtable عبر دوال خادم (Vercel Serverless
+     Functions) موجودة في مجلد /api بجانب هذا الملف — التوكن لا يظهر أبدًا في كود المتصفح:
+       أ) أنشئي جدول (Table) في Airtable بالأعمدة (Single line text لكل عمود): الاسم، الخدمة،
+          رقم العميل، حساب مقدم الخدمة، معرف الخدمة، مقدم الخدمة — وأضيفي عمودًا جديدًا
+          "سبب اختيار الهدية" من نوع Long text لحفظ سبب اختيار المستفيد للهدية.
+       ب) من إعدادات مشروع Vercel (Project Settings → Environment Variables) أضيفي ثلاثة
+          متغيرات بيئة: AIRTABLE_BASE_ID، AIRTABLE_TABLE_NAME، AIRTABLE_TOKEN (التوكن الجديد
+          فقط — انظري تنبيه الأمان أدناه)، ثم أعيدي نشر الموقع (Redeploy) ليتم تحميلها.
+       ج) أنشئي Personal Access Token جديد من airtable.com/create/tokens بصلاحيات
+          data.records:read و data.records:write على هذا الـ Base فقط.
        د) غيّري DEMO_MODE إلى false.
-     تنبيه أمني: التوكن يكون مرئيًا داخل كود الصفحة لأي زائر يفتح "عرض المصدر" — لهذا يجب
-     تقييد صلاحياته بالـ Base نفسه فقط كما بالخطوة (ج)، ولا تستخدمي توكن له صلاحيات أوسع.
-  4) الخريطة مبنية من بيانات حدود جغرافية حقيقية (مبسّطة لغرض العرض)، وليست تصميمًا فنيًا
+     ⚠️ تنبيه أمني عاجل: التوكن القديم كان مكتوبًا داخل هذا الملف نفسه ورفعتِه إلى GitHub
+     (لهذا نبّهتك GitGuardian) — هذا يعني أنه صار متسربًا فعليًا لأي شخص يطّلع على الكود، حتى
+     بعد حذفه من هنا. يجب إبطاله (Revoke) من airtable.com/create/tokens فورًا وإنشاء توكن
+     جديد يوضع فقط كمتغيّر بيئة في Vercel كما بالخطوة (ب) — لا تكتبيه أبدًا داخل أي ملف HTML/JS.
+  4) الشروط والأحكام وسياسة الخصوصية أصبحت صفحة مستقلة terms.html بجانب هذا الملف، ويُفتح
+     رابطها من مربّع الإقرار عند الحجز.
+  5) الخريطة مبنية من بيانات حدود جغرافية حقيقية (مبسّطة لغرض العرض)، وليست تصميمًا فنيًا
      منسوخًا من أي مصدر — احتفالية دقيقة الشكل بلا حساسية.
   ========================================================================================== -->
 
@@ -272,7 +277,13 @@ p, li{ line-height:1.9; }
   font-family:'ZainReg'; font-size:.95rem; background:#fff; color:var(--plum);
 }
 .field input:focus{ outline:none; border-color:var(--olive); }
+.field textarea{
+  width:100%; padding:13px 16px; border-radius:14px; border:1.5px solid rgba(43,26,50,.16);
+  font-family:'ZainReg'; font-size:.95rem; background:#fff; color:var(--plum); resize:vertical;
+}
+.field textarea:focus{ outline:none; border-color:var(--olive); }
 
+.terms-link{ color:var(--indigo); font-weight:700; text-decoration:underline; }
 .terms{ background:rgba(43,26,50,.05); border:1px solid rgba(43,26,50,.1); border-radius:16px; padding:14px 16px; margin:14px 0; }
 .terms-title{ font-size:.8rem; font-weight:700; margin-bottom:10px; text-align:right; }
 .term-line{ display:flex; align-items:flex-start; gap:10px; margin-bottom:9px; text-align:right; }
@@ -396,11 +407,12 @@ p, li{ line-height:1.9; }
 
       <div class="field"><label for="claimName">الاسم</label><input type="text" id="claimName" placeholder="اسمك الكامل"></div>
       <div class="field"><label for="claimPhone">رقم الجوال</label><input type="tel" id="claimPhone" placeholder="05xxxxxxxx" inputmode="numeric"></div>
+      <div class="field"><label for="claimReason">سبب اختيارك لهذه الهدية</label><textarea id="claimReason" rows="3" placeholder="اكتب/ي بإيجاز ليش تحتاج/ين هذه الخدمة تحديدًا"></textarea></div>
 
       <div class="terms">
         <div class="terms-title">قبل إرسال طلبك، أؤكد أن:</div>
         <label class="term-line"><input type="checkbox" id="term1"><span>لدي حاجة فعلية لهذه الخدمة، وسأستخدمها بالكامل وبما يتناسب مع الغرض المخصّصة له.</span></label>
-        <label class="term-line"><input type="checkbox" id="term2"><span>أوافق على الشروط والأحكام وسياسة الخصوصية الخاصة بمبادرة خماس.</span></label>
+        <label class="term-line"><input type="checkbox" id="term2"><span>أوافق على <a href="terms.html" target="_blank" rel="noopener" class="terms-link">الشروط والأحكام وسياسة الخصوصية</a> الخاصة بمبادرة خماس.</span></label>
       </div>
 
       <div class="priority-note">تنويه: تُمنح الخدمات حسب أولوية الحاجة إليها، وقد يتواصل معك فريق خماس للتأكيد قبل التفعيل النهائي.</div>
@@ -441,10 +453,9 @@ p, li{ line-height:1.9; }
     // ولا تنسي ترجعينها false قبل عرض الصفحة على أي شخص فعليًا.
     TESTING_UNLIMITED_CLAIMS: false,
 
-    // إعدادات Airtable (تُستخدم فقط عندما DEMO_MODE = false)
-    AIRTABLE_BASE_ID: "appVcpjxbgJTC34Es",
-    AIRTABLE_TABLE_NAME: "96Services-Khumas",
-    AIRTABLE_TOKEN: "patVV9ydj8532lWeo.30fb16658d979a1887c0a7c4d06c6511c97fd86ae225c050085a9901d30e64b0",
+    // ملاحظة أمنية: لم يعد إعداد Airtable (Base ID / Table Name / Token) موجودًا هنا إطلاقًا.
+    // كل التواصل مع Airtable يمر الآن عبر دوال الخادم في مجلد /api (انظري التعليمات بالأعلى)،
+    // بحيث لا يظهر التوكن أبدًا داخل كود المتصفح ولا داخل GitHub.
 
     TOTAL_SERVICES: 96,
     POLL_INTERVAL_MS: 15000,
@@ -773,61 +784,31 @@ const SERVICES = [
     });
   }, { root: $('servicesFrame'), threshold: .12, rootMargin: '0px 0px -20px 0px' }) : null;
 
-  // ---------- Airtable helper (used only when CONFIG.DEMO_MODE === false) ----------
-  // أسماء أعمدة جدول Airtable — عدّليها هنا لو سمّيتِ الأعمدة بأسماء مختلفة داخل Airtable
-  const AT_FIELDS = {
-    name: 'الاسم',
-    service: 'الخدمة',
-    phone: 'رقم العميل',
-    providerAccount: 'حساب مقدم الخدمة',
-    serviceId: 'معرف الخدمة',
-    providerName: 'مقدم الخدمة'
-  };
-
-  function airtableUrl(){
-    return `https://api.airtable.com/v0/${CONFIG.AIRTABLE_BASE_ID}/${encodeURIComponent(CONFIG.AIRTABLE_TABLE_NAME)}`;
-  }
-  function airtableHeaders(){
-    return {
-      'Authorization': 'Bearer ' + CONFIG.AIRTABLE_TOKEN,
-      'Content-Type': 'application/json'
-    };
-  }
-  async function airtableListClaims(){
-    const res = await fetch(airtableUrl() + '?pageSize=100', { headers: airtableHeaders() });
-    if (!res.ok) throw new Error('airtable_list_failed');
+  // ---------- طبقة حماية البيانات (تُستخدم فقط عندما CONFIG.DEMO_MODE === false) ----------
+  // المتصفح لا يتواصل مع Airtable مباشرة ولا يحمل أي توكن؛ كل الطلبات تمر عبر دوال خادم
+  // (/api/list-services و /api/submit-claim) موجودة في نفس مشروع Vercel. هذه الدوال هي
+  // الوحيدة التي تحمل توكن Airtable (كمتغيّر بيئة على الخادم)، كما أنها لا تُرجع للمتصفح
+  // سوى معرّفات الخدمات المحجوزة فقط — دون أسماء أو أرقام جوال أي مستفيد آخر.
+  async function fetchClaimedServiceIds(){
+    const res = await fetch('/api/list-services');
+    if (!res.ok) throw new Error('services_list_failed');
     const data = await res.json();
-    return data.records || [];
+    return new Set(data.claimedIds || []);
   }
-  async function airtableCreateClaim(fields){
-    const res = await fetch(airtableUrl(), {
-      method: 'POST',
-      headers: airtableHeaders(),
-      body: JSON.stringify({ records: [{ fields }] })
-    });
-    if (!res.ok) throw new Error('airtable_create_failed');
-    return res.json();
+  async function checkPhoneStillClaimed(phone){
+    const res = await fetch('/api/check-phone?phone=' + encodeURIComponent(phone));
+    if (!res.ok) return true; // بالشك نخلي القفل المحلي كما هو بدل ما نرفعه بالخطأ
+    const data = await res.json();
+    return !!data.stillClaimed;
   }
   async function airtableClaimService(payload){
-    // نجيب الحجوزات الحالية أول ما نحاول — أقرب ما يكون لمنع تكرار الحجز لنفس الخدمة أو نفس الجوال
-    const records = await airtableListClaims();
-
-    const phoneTaken = records.some(r => String(r.fields[AT_FIELDS.phone] || '').replace(/\D/g, '') === payload.phone);
-    if (phoneTaken) return { error: 'already_claimed_by_phone' };
-
-    const serviceTaken = records.some(r => r.fields[AT_FIELDS.serviceId] === payload.service_id);
-    if (serviceTaken) return { error: 'already_taken' };
-
-    await airtableCreateClaim({
-      [AT_FIELDS.name]: payload.name,
-      [AT_FIELDS.service]: payload.service_name,
-      [AT_FIELDS.phone]: payload.phone,
-      [AT_FIELDS.providerAccount]: payload.provider_account || '',
-      [AT_FIELDS.serviceId]: payload.service_id,
-      [AT_FIELDS.providerName]: payload.provider_name || ''
+    const res = await fetch('/api/submit-claim', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
     });
-
-    return { success: true };
+    if (!res.ok && res.status !== 400) throw new Error('submit_failed');
+    return res.json();
   }
 
   function hasClaimedLocally(){
@@ -852,7 +833,7 @@ const SERVICES = [
       if (alreadyByPhone) return { error: 'already_claimed_by_phone' };
     }
     if (claims[payload.service_id]) return { error: 'already_taken' };
-    claims[payload.service_id] = { name: payload.name, phone: payload.phone, date: new Date().toISOString() };
+    claims[payload.service_id] = { name: payload.name, phone: payload.phone, reason: payload.reason || '', date: new Date().toISOString() };
     saveDemoClaims(claims);
     return { success: true };
   }
@@ -1015,15 +996,15 @@ const SERVICES = [
       return;
     }
     try {
-      const records = await airtableListClaims();
-      const claimedIds = new Set(records.map(r => r.fields[AT_FIELDS.serviceId]).filter(Boolean));
+      const claimedIds = await fetchClaimedServiceIds();
 
-      // تصحيح تلقائي: لو المتصفح متذكّر إنه سجّل من قبل، لكن رقمه ما عاد موجود بأي سجل
-      // حالي بـ Airtable (يعني الإدارة حذفت حجزه)، نشيل القفل المحلي فورًا حتى يقدر
-      // يسجّل من جديد بنفس الجهاز بدون أي خطوة يدوية منه.
+      // تصحيح تلقائي: لو المتصفح متذكّر إنه سجّل من قبل، لكن رقمه ما عاد مرتبطًا بأي حجز
+      // حالي بـ Airtable (يعني الإدارة حذفت حجزه)، نشيل القفل المحلي فورًا حتى يقدر يسجّل
+      // من جديد بنفس الجهاز بدون أي خطوة يدوية منه. الفحص يمر عبر /api/check-phone حتى لا
+      // يحتاج المتصفح لتحميل أرقام جوال بقية المستفيدين.
       const rememberedPhone = hasClaimedLocally();
       if (rememberedPhone){
-        const stillExists = records.some(r => String(r.fields[AT_FIELDS.phone] || '').replace(/\D/g, '') === rememberedPhone);
+        const stillExists = await checkPhoneStillClaimed(rememberedPhone);
         if (!stillExists){
           try { localStorage.removeItem(LOCAL_CLAIM_KEY); } catch(e){}
         }
@@ -1058,6 +1039,7 @@ const SERVICES = [
     $('formError').style.display = 'none';
     $('claimName').value = '';
     $('claimPhone').value = '';
+    $('claimReason').value = '';
     $('term1').checked = false; $('term2').checked = false;
     $('modalServiceName').textContent = service.name;
     $('modalProvider').innerHTML = service.account
@@ -1087,12 +1069,14 @@ const SERVICES = [
   $('submitClaim').addEventListener('click', async () => {
     const name = $('claimName').value.trim();
     const phone = $('claimPhone').value.trim().replace(/\D/g,'');
+    const reason = $('claimReason').value.trim();
     const t1 = $('term1').checked, t2 = $('term2').checked;
     const errEl = $('formError');
     errEl.style.display = 'none';
 
     if (name.length < 2){ errEl.textContent = 'الرجاء كتابة اسمك كاملًا.'; errEl.style.display = 'block'; return; }
     if (phone.length < 9){ errEl.textContent = 'الرجاء كتابة رقم جوال صحيح.'; errEl.style.display = 'block'; return; }
+    if (reason.length < 5){ errEl.textContent = 'الرجاء كتابة سبب اختيارك لهذه الهدية.'; errEl.style.display = 'block'; return; }
     if (!t1 || !t2){ errEl.textContent = 'الرجاء تأكيد الإقرارين قبل الإرسال.'; errEl.style.display = 'block'; return; }
 
     const btn = $('submitClaim');
@@ -1105,7 +1089,7 @@ const SERVICES = [
         : await airtableClaimService({
             service_id: activeService.id,
             service_name: activeService.name,
-            name, phone,
+            name, phone, reason,
             provider_account: activeService.account,
             provider_name: activeService.provider
           });
