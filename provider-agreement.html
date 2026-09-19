@@ -103,7 +103,7 @@ body{
 
   <section class="hero">
     <h1 class="display">اتفاقية <span style="color:var(--olive)">مزوّدي الخدمة</span></h1>
-    <p>أملأ بياناتك ووافق على الشروط والأحكام حتى للانضمام كمزوّد خدمة ضمن مبادرة 96 هدية.</p>
+    <p>أملأ بياناتك ووافق على الشروط والأحكام حتى تنضمّ كمزوّد خدمة ضمن مبادرة 96 هدية.</p>
   </section>
 
   <div class="card">
@@ -111,6 +111,10 @@ body{
       <div class="field">
         <label for="providerName">اسمك (مسؤول التواصل)</label>
         <input type="text" id="providerName" placeholder="اسمك الكامل">
+      </div>
+      <div class="field">
+        <label for="providerPhone">رقم الجوال</label>
+        <input type="tel" id="providerPhone" placeholder="05xxxxxxxx" inputmode="numeric">
       </div>
       <div class="field">
         <label for="entityName">اسم الكيان / الفرد المقدّم للخدمة</label>
@@ -146,12 +150,14 @@ body{
 
   $('submitBtn').addEventListener('click', async () => {
     const name = $('providerName').value.trim();
+    const phone = $('providerPhone').value.trim().replace(/\D/g,'');
     const entity = $('entityName').value.trim();
     const agreed = $('agreeTerms').checked;
     const errEl = $('formError');
     errEl.style.display = 'none';
 
     if (name.length < 2){ errEl.textContent = 'الرجاء كتابة اسمك كاملًا.'; errEl.style.display = 'block'; return; }
+    if (phone.length < 9){ errEl.textContent = 'الرجاء كتابة رقم جوال صحيح.'; errEl.style.display = 'block'; return; }
     if (entity.length < 2){ errEl.textContent = 'الرجاء كتابة اسم الكيان أو الفرد.'; errEl.style.display = 'block'; return; }
     if (!agreed){ errEl.textContent = 'الرجاء الموافقة على الشروط والأحكام أولًا.'; errEl.style.display = 'block'; return; }
 
@@ -162,12 +168,12 @@ body{
       const res = await fetch('/api/submit-provider', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, entity })
+        body: JSON.stringify({ name, phone, entity })
       });
       const data = await res.json();
 
       if (data.error){
-        errEl.textContent = 'صار خطأ أثناء الإرسال، حاول مرة ثانية بعد قليل.';
+        errEl.textContent = 'حدث خطأ أثناء الإرسال، حاول مرة أخرى.';
         errEl.style.display = 'block';
         btn.disabled = false; btn.textContent = 'إرسال';
         return;
@@ -176,7 +182,7 @@ body{
       $('formBox').classList.add('hide');
       $('successBox').classList.add('show');
     } catch (e) {
-      errEl.textContent = 'تعذّر الاتصال بالخادم، تأكد من الإنترنت وحاول مرة أخرى.';
+      errEl.textContent = 'تعذّر الاتصال بالخادم، تأكد من الإنترنت وحاول مرة اخرى.';
       errEl.style.display = 'block';
       btn.disabled = false; btn.textContent = 'إرسال';
     }
