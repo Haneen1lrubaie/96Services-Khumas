@@ -103,7 +103,7 @@ body{
 
   <section class="hero">
     <h1 class="display">اتفاقية <span style="color:var(--olive)">مزوّدي الخدمة</span></h1>
-    <p>عبّي بياناتك ووافقي على الشروط والأحكام حتى تنضمّي كمزوّد خدمة ضمن مبادرة 96 هدية.</p>
+    <p>أملأ بياناتك ووافق على الشروط والأحكام حتى للانضمام كمزوّد خدمة ضمن مبادرة 96 هدية.</p>
   </section>
 
   <div class="card">
@@ -137,9 +137,7 @@ body{
     </div>
   </div>
 
-  <div style="text-align:center;">
-    <a class="top-link" href="index.html">→ الرجوع لصفحة 96 هدية</a>
-  </div>
+   
 </div>
 
 <script>
@@ -169,7 +167,7 @@ body{
       const data = await res.json();
 
       if (data.error){
-        errEl.textContent = 'صار خطأ أثناء الإرسال، حاولي مرة ثانية بعد شوي.';
+        errEl.textContent = 'صار خطأ أثناء الإرسال، حاول مرة ثانية بعد قليل.';
         errEl.style.display = 'block';
         btn.disabled = false; btn.textContent = 'إرسال';
         return;
@@ -178,7 +176,7 @@ body{
       $('formBox').classList.add('hide');
       $('successBox').classList.add('show');
     } catch (e) {
-      errEl.textContent = 'تعذّر الاتصال بالخادم، تأكدي من الإنترنت وحاولي مرة ثانية.';
+      errEl.textContent = 'تعذّر الاتصال بالخادم، تأكد من الإنترنت وحاول مرة أخرى.';
       errEl.style.display = 'block';
       btn.disabled = false; btn.textContent = 'إرسال';
     }
