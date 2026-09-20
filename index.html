@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>خماس × اليوم الوطني</title>
-<meta name="description" content="٩٦ خدمة مقدَّمة من مجتمع خماس احتفالًا باليوم الوطني السعودي الـ٩٦. كل خدمة تُحجز تركّب قطعة من خريطة الوطن.">
+<meta name="description" content="118 خدمة مقدَّمة من مجتمع خماس احتفالًا باليوم الوطني السعودي الـ٩٦. كل خدمة تُحجز تركّب قطعة من خريطة الوطن.">
 
 <!-- ==========================================================================================
   إعداد سريع (نسخة محمية — التوكن لم يعد داخل هذا الملف إطلاقًا):
@@ -523,6 +523,7 @@ input[type="reset"] {
         </div>
         <div class="detail-section"><div class="detail-label">وصف الخدمة</div><div class="detail-value" id="detailDescription"></div></div>
         <div class="detail-section"><div class="detail-label">مقدم الخدمة</div><div class="detail-value" id="detailProvider"></div></div>
+        <div class="detail-section"><div class="detail-label">عن مقدم الخدمة</div><div class="detail-value" id="detailProviderDescription"></div></div>
         <div class="detail-section"><div class="detail-label">حساب / رابط مقدم الخدمة</div><div class="detail-value" id="detailAccount"></div></div>
         <div class="detail-actions"><button class="btn-primary" id="continueBooking" type="button">متابعة للحجز والإقرار</button><button class="btn-plain" id="cancelDetail" type="button">رجوع</button></div>
       </div>
@@ -596,102 +597,1186 @@ input[type="reset"] {
   // هذا الرابط للعرض/التصفح فقط — التواصل الفعلي بعد التسجيل يصير من فريق خماس، مو مباشر مع مقدم الخدمة.
   // =====================================================================================
 const SERVICES = [
-    { id:'s1', title:'جلسة تصوير فوتوغرافي احترافية', provider:'اسم المصوّر', link:'https://instagram.com/username', cat:'photo', logo:'logos/s1.png' },
-    { id:'s2', title:'جلسة تصوير فيديو ترويجي', provider:'اسم مصوّر الفيديو', link:'https://instagram.com/username', cat:'photo', logo:'logos/s2.png' },
-    { id:'s3', title:'تصوير منتجات احترافي', provider:'اسم المصوّر', link:'https://instagram.com/username', cat:'photo', logo:'logos/s3.png' },
-    { id:'s4', title:'جلسة تصوير بورتريه شخصي', provider:'اسم المصوّر', link:'https://instagram.com/username', cat:'photo', logo:'logos/s4.png' },
-    { id:'s5', title:'تصوير بالدرون (جوي)', provider:'اسم مصوّر الدرون', link:'https://instagram.com/username', cat:'photo', logo:'logos/s5.png' },
-    { id:'s6', title:'تصميم هوية بصرية كاملة', provider:'اسم المصمم', link:'https://instagram.com/username', cat:'design', logo:'logos/s6.png' },
-    { id:'s7', title:'تصميم شعار احترافي', provider:'اسم المصمم', link:'https://instagram.com/username', cat:'design', logo:'logos/s7.png' },
-    { id:'s8', title:'تصميم بروفايل الشركة', provider:'اسم المصمم', link:'https://instagram.com/username', cat:'design', logo:'logos/s8.png' },
-    { id:'s9', title:'تصميم بطاقة أعمال ومطبوعات', provider:'اسم المصمم', link:'https://instagram.com/username', cat:'design', logo:'logos/s9.png' },
-    { id:'s10', title:'تصميم عبوة وتغليف منتج', provider:'اسم مصمم التغليف', link:'https://instagram.com/username', cat:'design', logo:'logos/s10.png' },
-    { id:'s11', title:'تصميم واجهة موقع إلكتروني (UI)', provider:'اسم مصمم الواجهات', link:'https://instagram.com/username', cat:'design', logo:'logos/s11.png' },
-    { id:'s12', title:'تصميم تجربة استخدام تطبيق (UX)', provider:'اسم مصمم تجربة المستخدم', link:'https://instagram.com/username', cat:'design', logo:'logos/s12.png' },
-    { id:'s13', title:'تدقيق تجربة استخدام لتطبيق قائم', provider:'اسم خبير تجربة المستخدم', link:'https://instagram.com/username', cat:'design', logo:'logos/s13.png' },
-    { id:'s14', title:'تصميم عرض تقديمي احترافي', provider:'اسم المصمم', link:'https://instagram.com/username', cat:'design', logo:'logos/s14.png' },
-    { id:'s15', title:'تصميم لافتات وستاندات معارض', provider:'اسم مصمم الطباعة', link:'https://instagram.com/username', cat:'design', logo:'logos/s15.png' },
-    { id:'s16', title:'تصميم جناح معرض تجاري', provider:'اسم مصمم المعارض', link:'https://instagram.com/username', cat:'design', logo:'logos/s16.png' },
-    { id:'s17', title:'رسوم توضيحية (إليستريشن) مخصصة', provider:'اسم الرسام', link:'https://instagram.com/username', cat:'design', logo:'logos/s17.png' },
-    { id:'s18', title:'تصميم موشن جرافيك قصير', provider:'اسم مصمم الموشن', link:'https://instagram.com/username', cat:'photo', logo:'logos/s18.png' },
-    { id:'s19', title:'مونتاج فيديو احترافي', provider:'اسم المونتير', link:'https://instagram.com/username', cat:'photo', logo:'logos/s19.png' },
-    { id:'s20', title:'إنتاج بودكاست (تسجيل ومونتاج)', provider:'اسم منتج البودكاست', link:'https://instagram.com/username', cat:'photo', logo:'logos/s20.png' },
-    { id:'s21', title:'تصميم خط عربي وكاليغرافي', provider:'اسم الخطاط', link:'https://instagram.com/username', cat:'design', logo:'logos/s21.png' },
-    { id:'s22', title:'تصميم قائمة طعام (منيو)', provider:'اسم المصمم', link:'https://instagram.com/username', cat:'design', logo:'logos/s22.png' },
-    { id:'s23', title:'استشارة تصميم داخلي لمقر العمل', provider:'اسم المصمم الداخلي', link:'https://instagram.com/username', cat:'design', logo:'logos/s23.png' },
-    { id:'s24', title:'استشارة قانونية عامة', provider:'اسم المحامي', link:'https://instagram.com/username', cat:'business', logo:'logos/s24.png' },
-    { id:'s25', title:'مراجعة عقد تجاري', provider:'اسم المحامي', link:'https://instagram.com/username', cat:'business', logo:'logos/s25.png' },
-    { id:'s26', title:'استشارة تسجيل علامة تجارية', provider:'اسم المستشار القانوني', link:'https://instagram.com/username', cat:'business', logo:'logos/s26.png' },
-    { id:'s27', title:'استشارة تأسيس شركة', provider:'اسم المستشار القانوني', link:'https://instagram.com/username', cat:'business', logo:'logos/s27.png' },
-    { id:'s28', title:'استشارة في الملكية الفكرية', provider:'اسم المستشار القانوني', link:'https://instagram.com/username', cat:'business', logo:'logos/s28.png' },
-    { id:'s29', title:'استشارة في ريادة الأعمال', provider:'اسم المستشار', link:'https://instagram.com/username', cat:'business', logo:'logos/s29.png' },
-    { id:'s30', title:'جلسة إرشاد (منتورينق) مع رائد أعمال', provider:'اسم الموجّه', link:'https://instagram.com/username', cat:'business', logo:'logos/s30.png' },
-    { id:'s31', title:'جلسة تخطيط استراتيجي', provider:'اسم المستشار', link:'https://instagram.com/username', cat:'business', logo:'logos/s31.png' },
-    { id:'s32', title:'استشارة في نموذج العمل التجاري', provider:'اسم المستشار', link:'https://instagram.com/username', cat:'business', logo:'logos/s32.png' },
-    { id:'s33', title:'كتابة خطة عمل احترافية', provider:'اسم كاتب خطط الأعمال', link:'https://instagram.com/username', cat:'business', logo:'logos/s33.png' },
-    { id:'s34', title:'إعداد دراسة جدوى مبدئية', provider:'اسم المستشار', link:'https://instagram.com/username', cat:'business', logo:'logos/s34.png' },
-    { id:'s35', title:'بناء نموذج مالي للمشروع', provider:'اسم المستشار المالي', link:'https://instagram.com/username', cat:'business', logo:'logos/s35.png' },
-    { id:'s36', title:'استشارة مالية للمشاريع الناشئة', provider:'اسم المستشار المالي', link:'https://instagram.com/username', cat:'business', logo:'logos/s36.png' },
-    { id:'s37', title:'استشارة محاسبية وضريبية', provider:'اسم المحاسب', link:'https://instagram.com/username', cat:'business', logo:'logos/s37.png' },
-    { id:'s38', title:'استشارة في التمويل والاستثمار', provider:'اسم المستشار المالي', link:'https://instagram.com/username', cat:'business', logo:'logos/s38.png' },
-    { id:'s39', title:'تدريب على عرض المشروع أمام المستثمرين', provider:'اسم المدرّب', link:'https://instagram.com/username', cat:'training', logo:'logos/s39.png' },
-    { id:'s40', title:'استشارة تسويقية شاملة', provider:'اسم المسوّق', link:'https://instagram.com/username', cat:'marketing', logo:'logos/s40.png' },
-    { id:'s41', title:'تدقيق استراتيجية التسويق الرقمي', provider:'اسم خبير التسويق', link:'https://instagram.com/username', cat:'marketing', logo:'logos/s41.png' },
-    { id:'s42', title:'إعداد خطة محتوى لوسائل التواصل', provider:'اسم مدير المحتوى', link:'https://instagram.com/username', cat:'marketing', logo:'logos/s42.png' },
-    { id:'s43', title:'استشارة إعلانات ممولة على السوشيال ميديا', provider:'اسم مختص الإعلانات', link:'https://instagram.com/username', cat:'marketing', logo:'logos/s43.png' },
-    { id:'s44', title:'تحسين محركات البحث (SEO)', provider:'اسم مختص السيو', link:'https://instagram.com/username', cat:'marketing', logo:'logos/s44.png' },
-    { id:'s45', title:'كتابة محتوى تسويقي إبداعي', provider:'اسم الكاتب', link:'https://instagram.com/username', cat:'marketing', logo:'logos/s45.png' },
-    { id:'s46', title:'كتابة محتوى بالإنجليزية', provider:'اسم الكاتب', link:'https://instagram.com/username', cat:'marketing', logo:'logos/s46.png' },
-    { id:'s47', title:'صياغة نبرة العلامة التجارية', provider:'اسم الكاتب', link:'https://instagram.com/username', cat:'marketing', logo:'logos/s47.png' },
-    { id:'s48', title:'كتابة بيان صحفي', provider:'اسم مختص العلاقات العامة', link:'https://instagram.com/username', cat:'marketing', logo:'logos/s48.png' },
-    { id:'s49', title:'إعداد حقيبة إعلامية للعلامة التجارية', provider:'اسم مختص العلاقات العامة', link:'https://instagram.com/username', cat:'marketing', logo:'logos/s49.png' },
-    { id:'s50', title:'استشارة إدارة مجتمع رقمي', provider:'اسم مدير المجتمع', link:'https://instagram.com/username', cat:'marketing', logo:'logos/s50.png' },
-    { id:'s51', title:'استشارة تعاون مع المؤثرين', provider:'اسم مختص التسويق', link:'https://instagram.com/username', cat:'marketing', logo:'logos/s51.png' },
-    { id:'s52', title:'تحسين الملف الشخصي على لينكدإن', provider:'اسم مختص التوظيف', link:'https://instagram.com/username', cat:'training', logo:'logos/s52.png' },
-    { id:'s53', title:'كتابة سيرة ذاتية احترافية', provider:'اسم كاتب السير الذاتية', link:'https://instagram.com/username', cat:'training', logo:'logos/s53.png' },
-    { id:'s54', title:'تدريب على مهارات المقابلة الشخصية', provider:'اسم المدرّب', link:'https://instagram.com/username', cat:'training', logo:'logos/s54.png' },
-    { id:'s55', title:'استشارة توظيف وموارد بشرية', provider:'اسم مختص الموارد البشرية', link:'https://instagram.com/username', cat:'training', logo:'logos/s55.png' },
-    { id:'s56', title:'تصميم دليل سياسات الموظفين', provider:'اسم مختص الموارد البشرية', link:'https://instagram.com/username', cat:'training', logo:'logos/s56.png' },
-    { id:'s57', title:'جلسة تدريبية لفريق العمل', provider:'اسم المدرّب', link:'https://instagram.com/username', cat:'training', logo:'logos/s57.png' },
-    { id:'s58', title:'ورشة قيادة فرق العمل', provider:'اسم المدرّب', link:'https://instagram.com/username', cat:'training', logo:'logos/s58.png' },
-    { id:'s59', title:'ورشة بناء الفريق', provider:'اسم المدرّب', link:'https://instagram.com/username', cat:'training', logo:'logos/s59.png' },
-    { id:'s60', title:'ورشة مهارات التفاوض', provider:'اسم المدرّب', link:'https://instagram.com/username', cat:'training', logo:'logos/s60.png' },
-    { id:'s61', title:'ورشة مهارات البيع', provider:'اسم المدرّب', link:'https://instagram.com/username', cat:'training', logo:'logos/s61.png' },
-    { id:'s62', title:'ورشة خدمة العملاء', provider:'اسم المدرّب', link:'https://instagram.com/username', cat:'training', logo:'logos/s62.png' },
-    { id:'s63', title:'ورشة الحديث أمام الجمهور', provider:'اسم المدرّب', link:'https://instagram.com/username', cat:'training', logo:'logos/s63.png' },
-    { id:'s64', title:'جلسة تدريب على القيادة الشخصية', provider:'اسم المدرّب', link:'https://instagram.com/username', cat:'training', logo:'logos/s64.png' },
-    { id:'s65', title:'جلسة تطوير ذاتي وتحقيق الأهداف', provider:'اسم المدرّب', link:'https://instagram.com/username', cat:'training', logo:'logos/s65.png' },
-    { id:'s66', title:'ورشة إدارة الوقت والإنتاجية', provider:'اسم المدرّب', link:'https://instagram.com/username', cat:'training', logo:'logos/s66.png' },
-    { id:'s67', title:'ورشة أساسيات إكسل لبيانات الأعمال', provider:'اسم المدرّب', link:'https://instagram.com/username', cat:'training', logo:'logos/s67.png' },
-    { id:'s68', title:'ورشة تحليل البيانات للمبتدئين', provider:'اسم مختص تحليل البيانات', link:'https://instagram.com/username', cat:'training', logo:'logos/s68.png' },
-    { id:'s69', title:'استشارة تقنية لتطوير تطبيق', provider:'اسم مستشار تقني', link:'https://instagram.com/username', cat:'tech', logo:'logos/s69.png' },
-    { id:'s70', title:'استشارة تقنية لتطوير موقع إلكتروني', provider:'اسم مستشار تقني', link:'https://instagram.com/username', cat:'tech', logo:'logos/s70.png' },
-    { id:'s71', title:'استشارة أمن سيبراني أساسي', provider:'اسم مختص الأمن السيبراني', link:'https://instagram.com/username', cat:'tech', logo:'logos/s71.png' },
-    { id:'s72', title:'استشارة حماية البيانات والخصوصية', provider:'اسم مستشار الخصوصية', link:'https://instagram.com/username', cat:'tech', logo:'logos/s72.png' },
-    { id:'s73', title:'إعداد متجر إلكتروني مبدئي', provider:'اسم مختص التجارة الإلكترونية', link:'https://instagram.com/username', cat:'tech', logo:'logos/s73.png' },
-    { id:'s74', title:'استشارة في التجارة الإلكترونية', provider:'اسم مختص التجارة الإلكترونية', link:'https://instagram.com/username', cat:'tech', logo:'logos/s74.png' },
-    { id:'s75', title:'استشارة سلسلة الإمداد والمخزون', provider:'اسم مختص اللوجستيات', link:'https://instagram.com/username', cat:'tech', logo:'logos/s75.png' },
-    { id:'s76', title:'استشارة استيراد وتصدير', provider:'اسم مختص الاستيراد والتصدير', link:'https://instagram.com/username', cat:'tech', logo:'logos/s76.png' },
-    { id:'s77', title:'استشارة تراخيص وإجراءات حكومية', provider:'اسم المستشار', link:'https://instagram.com/username', cat:'business', logo:'logos/s77.png' },
-    { id:'s78', title:'ورشة الجودة وإدارة المعايير', provider:'اسم مختص الجودة', link:'https://instagram.com/username', cat:'training', logo:'logos/s78.png' },
-    { id:'s79', title:'تدريب على السلامة والصحة المهنية', provider:'اسم مدرّب السلامة', link:'https://instagram.com/username', cat:'training', logo:'logos/s79.png' },
-    { id:'s80', title:'دورة إسعافات أولية أساسية', provider:'اسم مدرّب الإسعافات', link:'https://instagram.com/username', cat:'training', logo:'logos/s80.png' },
-    { id:'s81', title:'جلسة تصوير طعام احترافية', provider:'اسم المصوّر', link:'https://instagram.com/username', cat:'photo', logo:'logos/s81.png' },
-    { id:'s82', title:'استشارة تطوير قائمة طعام لمقهى أو مطعم', provider:'اسم مختص تطوير القوائم', link:'https://instagram.com/username', cat:'other', logo:'logos/s82.png' },
-    { id:'s83', title:'استشارة تجربة العميل داخل المتجر', provider:'اسم مختص تجربة العميل', link:'https://instagram.com/username', cat:'other', logo:'logos/s83.png' },
-    { id:'s84', title:'تصميم برنامج ولاء للعملاء', provider:'اسم مختص التسويق', link:'https://instagram.com/username', cat:'marketing', logo:'logos/s84.png' },
-    { id:'s85', title:'استشارة إدارة نظام نقاط البيع', provider:'اسم مختص الأنظمة', link:'https://instagram.com/username', cat:'tech', logo:'logos/s85.png' },
-    { id:'s86', title:'استشارة إدارة علاقات العملاء (CRM)', provider:'اسم مختص الأنظمة', link:'https://instagram.com/username', cat:'tech', logo:'logos/s86.png' },
-    { id:'s87', title:'تصميم نموذج ثلاثي الأبعاد لمنتج', provider:'اسم مصمم ثلاثي الأبعاد', link:'https://instagram.com/username', cat:'design', logo:'logos/s87.png' },
-    { id:'s88', title:'جلسة تعليم لغة إنجليزية لبيئة العمل', provider:'اسم المدرّب', link:'https://instagram.com/username', cat:'training', logo:'logos/s88.png' },
-    { id:'s89', title:'جلسة ترجمة مستندات عربي وإنجليزي', provider:'اسم المترجم', link:'https://instagram.com/username', cat:'other', logo:'logos/s89.png' },
-    { id:'s90', title:'تدقيق لغوي احترافي', provider:'اسم المدقق اللغوي', link:'https://instagram.com/username', cat:'other', logo:'logos/s90.png' },
-    { id:'s91', title:'استشارة تسويق بالبريد الإلكتروني', provider:'اسم مختص التسويق', link:'https://instagram.com/username', cat:'marketing', logo:'logos/s91.png' },
-    { id:'s92', title:'استشارة تصميم عرض استثماري لجولة تمويلية', provider:'اسم المستشار المالي', link:'https://instagram.com/username', cat:'business', logo:'logos/s92.png' },
-    { id:'s93', title:'جلسة تصوير صور شخصية احترافية', provider:'اسم المصوّر', link:'https://instagram.com/username', cat:'photo', logo:'logos/s93.png' },
-    { id:'s94', title:'استشارة استدامة ومسؤولية اجتماعية', provider:'اسم مختص الاستدامة', link:'https://instagram.com/username', cat:'other', logo:'logos/s94.png' },
-    { id:'s95', title:'استشارة تصميم تجربة فعالية أو مناسبة', provider:'اسم منظّم الفعاليات', link:'https://instagram.com/username', cat:'other', logo:'logos/s95.png' },
-    { id:'s96', title:'جلسة استشارية عامة مفتوحة مع خبير أعمال', provider:'اسم المستشار', link:'https://instagram.com/username', cat:'business', logo:'logos/s96.png' }
+    {
+      id: 's1',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's2',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's3',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتركّز على فهم الاحتياج ومناقشة التحديات وتقديم التوجيهات والتوصيات المناسبة، دون أن تشمل أي جلسات علاجية أو برامج علاجية ممتدة.",
+      provider: "ندى جبران",
+      providerDescription: "اخصائية نفسية ذات خبرة في مجال الصحة النفسية والإرشاد، ماجستير في التوجيه والإرشاد النفسي. أؤمن بأهمية الوعي النفسي، وأسعى لتقديم الدعم بأسلوب إنساني ومهني يساعد الأفراد على فهم ذواتهم.",
+      link: "https://wa.me/966552441932",
+      cat: 'other',
+      logo: "logos/p20.png"
+    },
+    {
+      id: 's4',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتهدف إلى مناقشة الاحتياج وتقديم التوجيه والتوصيات المناسبة، دون أن تشمل أي جلسات أو برامج علاجية.",
+      provider: "وجدان القحطاني",
+      providerDescription: "اهلاً وسهلاً معكم وجدان، أخصائية نفسية. أقدّم استشارات نفسية مجانية، وأسعى لأن أكون مساحة آمنة للاستماع والدعم، أواصل رحلتي حالياً في الدراسات العليا في التوجيه والارشاد النفسي.\n",
+      link: "https://wa.me/966532829226",
+      cat: 'other',
+      logo: "logos/p27.png"
+    },
+    {
+      id: 's5',
+      title: "مساحتك النفسية",
+      description: "جلسات دعم وتثقيف نفسي مخصصة للإناث، مدة كل جلسة 30 دقيقة، تتضمن الاستماع للمستفيدة، وتقديم التثقيف النفسي والإرشاد العام بما يتناسب مع احتياجها، دون أن تشمل التشخيص أو العلاج الطبي.",
+      provider: "سارة نجعي",
+      providerDescription: "أخصائية في الدعم والتثقيف النفسي، تقدم مساحة آمنة للاستماع والتعبير، وتساعد المستفيدات على فهم مشاعرهن والتعامل مع تحدياتهن اليومية.",
+      link: "https://wa.me/966553291033",
+      cat: 'other',
+      logo: "logos/p28.png"
+    },
+    {
+      id: 's6',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's7',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's8',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتركّز على فهم الاحتياج ومناقشة التحديات وتقديم التوجيهات والتوصيات المناسبة، دون أن تشمل أي جلسات علاجية أو برامج علاجية ممتدة.",
+      provider: "ندى جبران",
+      providerDescription: "اخصائية نفسية ذات خبرة في مجال الصحة النفسية والإرشاد، ماجستير في التوجيه والإرشاد النفسي. أؤمن بأهمية الوعي النفسي، وأسعى لتقديم الدعم بأسلوب إنساني ومهني يساعد الأفراد على فهم ذواتهم.",
+      link: "https://wa.me/966552441932",
+      cat: 'other',
+      logo: "logos/p20.png"
+    },
+    {
+      id: 's9',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتهدف إلى مناقشة الاحتياج وتقديم التوجيه والتوصيات المناسبة، دون أن تشمل أي جلسات أو برامج علاجية.",
+      provider: "وجدان القحطاني",
+      providerDescription: "اهلاً وسهلاً معكم وجدان، أخصائية نفسية. أقدّم استشارات نفسية مجانية، وأسعى لأن أكون مساحة آمنة للاستماع والدعم، أواصل رحلتي حالياً في الدراسات العليا في التوجيه والارشاد النفسي.\n",
+      link: "https://wa.me/966532829226",
+      cat: 'other',
+      logo: "logos/p27.png"
+    },
+    {
+      id: 's10',
+      title: "مساحتك النفسية",
+      description: "جلسات دعم وتثقيف نفسي مخصصة للإناث، مدة كل جلسة 30 دقيقة، تتضمن الاستماع للمستفيدة، وتقديم التثقيف النفسي والإرشاد العام بما يتناسب مع احتياجها، دون أن تشمل التشخيص أو العلاج الطبي.",
+      provider: "سارة نجعي",
+      providerDescription: "أخصائية في الدعم والتثقيف النفسي، تقدم مساحة آمنة للاستماع والتعبير، وتساعد المستفيدات على فهم مشاعرهن والتعامل مع تحدياتهن اليومية.",
+      link: "https://wa.me/966553291033",
+      cat: 'other',
+      logo: "logos/p28.png"
+    },
+    {
+      id: 's11',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's12',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's13',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتركّز على فهم الاحتياج ومناقشة التحديات وتقديم التوجيهات والتوصيات المناسبة، دون أن تشمل أي جلسات علاجية أو برامج علاجية ممتدة.",
+      provider: "ندى جبران",
+      providerDescription: "اخصائية نفسية ذات خبرة في مجال الصحة النفسية والإرشاد، ماجستير في التوجيه والإرشاد النفسي. أؤمن بأهمية الوعي النفسي، وأسعى لتقديم الدعم بأسلوب إنساني ومهني يساعد الأفراد على فهم ذواتهم.",
+      link: "https://wa.me/966552441932",
+      cat: 'other',
+      logo: "logos/p20.png"
+    },
+    {
+      id: 's14',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتهدف إلى مناقشة الاحتياج وتقديم التوجيه والتوصيات المناسبة، دون أن تشمل أي جلسات أو برامج علاجية.",
+      provider: "وجدان القحطاني",
+      providerDescription: "اهلاً وسهلاً معكم وجدان، أخصائية نفسية. أقدّم استشارات نفسية مجانية، وأسعى لأن أكون مساحة آمنة للاستماع والدعم، أواصل رحلتي حالياً في الدراسات العليا في التوجيه والارشاد النفسي.\n",
+      link: "https://wa.me/966532829226",
+      cat: 'other',
+      logo: "logos/p27.png"
+    },
+    {
+      id: 's15',
+      title: "مساحتك النفسية",
+      description: "جلسات دعم وتثقيف نفسي مخصصة للإناث، مدة كل جلسة 30 دقيقة، تتضمن الاستماع للمستفيدة، وتقديم التثقيف النفسي والإرشاد العام بما يتناسب مع احتياجها، دون أن تشمل التشخيص أو العلاج الطبي.",
+      provider: "سارة نجعي",
+      providerDescription: "أخصائية في الدعم والتثقيف النفسي، تقدم مساحة آمنة للاستماع والتعبير، وتساعد المستفيدات على فهم مشاعرهن والتعامل مع تحدياتهن اليومية.",
+      link: "https://wa.me/966553291033",
+      cat: 'other',
+      logo: "logos/p28.png"
+    },
+    {
+      id: 's16',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's17',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's18',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتركّز على فهم الاحتياج ومناقشة التحديات وتقديم التوجيهات والتوصيات المناسبة، دون أن تشمل أي جلسات علاجية أو برامج علاجية ممتدة.",
+      provider: "ندى جبران",
+      providerDescription: "اخصائية نفسية ذات خبرة في مجال الصحة النفسية والإرشاد، ماجستير في التوجيه والإرشاد النفسي. أؤمن بأهمية الوعي النفسي، وأسعى لتقديم الدعم بأسلوب إنساني ومهني يساعد الأفراد على فهم ذواتهم.",
+      link: "https://wa.me/966552441932",
+      cat: 'other',
+      logo: "logos/p20.png"
+    },
+    {
+      id: 's19',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتهدف إلى مناقشة الاحتياج وتقديم التوجيه والتوصيات المناسبة، دون أن تشمل أي جلسات أو برامج علاجية.",
+      provider: "وجدان القحطاني",
+      providerDescription: "اهلاً وسهلاً معكم وجدان، أخصائية نفسية. أقدّم استشارات نفسية مجانية، وأسعى لأن أكون مساحة آمنة للاستماع والدعم، أواصل رحلتي حالياً في الدراسات العليا في التوجيه والارشاد النفسي.\n",
+      link: "https://wa.me/966532829226",
+      cat: 'other',
+      logo: "logos/p27.png"
+    },
+    {
+      id: 's20',
+      title: "مساحتك النفسية",
+      description: "جلسات دعم وتثقيف نفسي مخصصة للإناث، مدة كل جلسة 30 دقيقة، تتضمن الاستماع للمستفيدة، وتقديم التثقيف النفسي والإرشاد العام بما يتناسب مع احتياجها، دون أن تشمل التشخيص أو العلاج الطبي.",
+      provider: "سارة نجعي",
+      providerDescription: "أخصائية في الدعم والتثقيف النفسي، تقدم مساحة آمنة للاستماع والتعبير، وتساعد المستفيدات على فهم مشاعرهن والتعامل مع تحدياتهن اليومية.",
+      link: "https://wa.me/966553291033",
+      cat: 'other',
+      logo: "logos/p28.png"
+    },
+    {
+      id: 's21',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's22',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's23',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتركّز على فهم الاحتياج ومناقشة التحديات وتقديم التوجيهات والتوصيات المناسبة، دون أن تشمل أي جلسات علاجية أو برامج علاجية ممتدة.",
+      provider: "ندى جبران",
+      providerDescription: "اخصائية نفسية ذات خبرة في مجال الصحة النفسية والإرشاد، ماجستير في التوجيه والإرشاد النفسي. أؤمن بأهمية الوعي النفسي، وأسعى لتقديم الدعم بأسلوب إنساني ومهني يساعد الأفراد على فهم ذواتهم.",
+      link: "https://wa.me/966552441932",
+      cat: 'other',
+      logo: "logos/p20.png"
+    },
+    {
+      id: 's24',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتهدف إلى مناقشة الاحتياج وتقديم التوجيه والتوصيات المناسبة، دون أن تشمل أي جلسات أو برامج علاجية.",
+      provider: "وجدان القحطاني",
+      providerDescription: "اهلاً وسهلاً معكم وجدان، أخصائية نفسية. أقدّم استشارات نفسية مجانية، وأسعى لأن أكون مساحة آمنة للاستماع والدعم، أواصل رحلتي حالياً في الدراسات العليا في التوجيه والارشاد النفسي.\n",
+      link: "https://wa.me/966532829226",
+      cat: 'other',
+      logo: "logos/p27.png"
+    },
+    {
+      id: 's25',
+      title: "مساحتك النفسية",
+      description: "جلسات دعم وتثقيف نفسي مخصصة للإناث، مدة كل جلسة 30 دقيقة، تتضمن الاستماع للمستفيدة، وتقديم التثقيف النفسي والإرشاد العام بما يتناسب مع احتياجها، دون أن تشمل التشخيص أو العلاج الطبي.",
+      provider: "سارة نجعي",
+      providerDescription: "أخصائية في الدعم والتثقيف النفسي، تقدم مساحة آمنة للاستماع والتعبير، وتساعد المستفيدات على فهم مشاعرهن والتعامل مع تحدياتهن اليومية.",
+      link: "https://wa.me/966553291033",
+      cat: 'other',
+      logo: "logos/p28.png"
+    },
+    {
+      id: 's26',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's27',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's28',
+      title: "رحلة البطل | تدريب  ",
+      description: "تدريب فردي لطفل واحد او 6 اطفال لمدة 4 ايام تدريبية، تقدم له خلالها تجربة تدريبية عملية ومخصصة تهدف الى تطوير مهاراته الشخصية والقيادية، وبناء ثقته بنفسه وقدرته على التعبير والتواصل والحضور.\nتشمل الخدمة:\n\n* التعرف على نقاط القوة والجوانب التي تحتاج الى تطوير لدى الطفل.\n* تدريبات عملية على الثقة بالنفس والحضور.\n* تنمية مهارات التحدث والتعبير عن الافكار والمشاعر.\n* تطوير مهارات التواصل والتفاعل مع الاخرين.\n* تدريبات على الالقاء والتحدث امام الجمهور بما يتناسب مع عمر الطفل.\n* انشطة وتطبيقات عملية تساعد الطفل على ممارسة المهارات وليس مجرد تعلمها.\n* توجيه فردي من المدرب خلال فترة التدريب.\n* تقييم قبلي وبعدي لمستوى الطفل وملاحظة التطور في المهارات المستهدفة.\n* مواد وحقائب تدريبية مساندة تساعد الطفل على استمرار الممارسة في المنزل.",
+      provider: "نبرة كلمة",
+      providerDescription: "رحلة البطل تجربة تدريبية فردية لمدة 4 ايام، تساعد الطفل على بناء ثقته بنفسه وتنمية مهارات التعبير والتواصل والحضور والالقاء من خلال التدريب والممارسة",
+      link: "https://www.instagram.com/nabrat.kalima?stkn=eHZyM212Zmd4MWU4",
+      cat: 'training',
+      logo: "logos/p5.png"
+    },
+    {
+      id: 's29',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتركّز على فهم الاحتياج ومناقشة التحديات وتقديم التوجيهات والتوصيات المناسبة، دون أن تشمل أي جلسات علاجية أو برامج علاجية ممتدة.",
+      provider: "ندى جبران",
+      providerDescription: "اخصائية نفسية ذات خبرة في مجال الصحة النفسية والإرشاد، ماجستير في التوجيه والإرشاد النفسي. أؤمن بأهمية الوعي النفسي، وأسعى لتقديم الدعم بأسلوب إنساني ومهني يساعد الأفراد على فهم ذواتهم.",
+      link: "https://wa.me/966552441932",
+      cat: 'other',
+      logo: "logos/p20.png"
+    },
+    {
+      id: 's30',
+      title: "استشارة نفسية",
+      description: "استشارة نفسية أولية تشمل التعرف على الحالة واحتياجاتها، وتطبيق المقاييس النفسية المناسبة، ثم إعداد تصور وخطة علاجية مبدئية وفق نتائج التقييم واحتياج المستفيد.",
+      provider: "سناء محمد",
+      providerDescription: "اخصائية نفسية ذات خبرة في مجال الصحة النفسية والإرشاد،ولدي ماجستير في التوجيه والإرشاد النفسي. أؤمن بأهمية الوعي النفسي، وأسعى لتقديم الدعم بأسلوب إنساني ومهني يساعد الأفراد على فهم ذواتهم.",
+      link: "https://wa.me/966557485136",
+      cat: 'other',
+      logo: "logos/p21.png"
+    },
+    {
+      id: 's31',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's32',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's33',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتهدف إلى مناقشة الاحتياج وتقديم التوجيه والتوصيات المناسبة، دون أن تشمل أي جلسات أو برامج علاجية.",
+      provider: "وجدان القحطاني",
+      providerDescription: "اهلاً وسهلاً معكم وجدان، أخصائية نفسية. أقدّم استشارات نفسية مجانية، وأسعى لأن أكون مساحة آمنة للاستماع والدعم، أواصل رحلتي حالياً في الدراسات العليا في التوجيه والارشاد النفسي.\n",
+      link: "https://wa.me/966532829226",
+      cat: 'other',
+      logo: "logos/p27.png"
+    },
+    {
+      id: 's34',
+      title: "مساحتك النفسية",
+      description: "جلسات دعم وتثقيف نفسي مخصصة للإناث، مدة كل جلسة 30 دقيقة، تتضمن الاستماع للمستفيدة، وتقديم التثقيف النفسي والإرشاد العام بما يتناسب مع احتياجها، دون أن تشمل التشخيص أو العلاج الطبي.",
+      provider: "سارة نجعي",
+      providerDescription: "أخصائية في الدعم والتثقيف النفسي، تقدم مساحة آمنة للاستماع والتعبير، وتساعد المستفيدات على فهم مشاعرهن والتعامل مع تحدياتهن اليومية.",
+      link: "https://wa.me/966553291033",
+      cat: 'other',
+      logo: "logos/p28.png"
+    },
+    {
+      id: 's35',
+      title: "دورة الذكاء الاصطناعي باستخدام كلود",
+      description: "دورة تدريبية عملية لتعلم استخدام Claude باحتراف في العمل والمهام اليومية وبناء المشاريع والاستفادة من إمكانياته المتقدمة",
+      provider: "معهد أثر ",
+      providerDescription: "مركز أثر المطور للتدريب، مركز تدريبي معتمد من المؤسسة العامة للتدريب التقني والمهني، متخصص في تقديم برامج تدريبية عملية ومواكبة لسوق العمل في التصميم والتقنية والذكاء الاصطناعي",
+      link: "https://x.com/athar_tmd?s=21",
+      cat: 'training',
+      logo: "logos/p30.png"
+    },
+    {
+      id: 's36',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's37',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's38',
+      title: "كلاسات بيلاتس ريفورمر نسائية ",
+      description: "جلستان بيلاتس مجانيتان لكل فائزة، تشملان تدريبًا وإشرافًا مباشرًا من الكوتش طوال الحصة، ضمن تجربة تجمع بين القوة والمرونة والتوازن والاسترخاء.",
+      provider: "pilates studio",
+      providerDescription: "استديو متخصص في تمارين البيلاتس، يقدم تجربة تدريبية تساعد على تحسين المرونة والتوازن وتقوية الجسم، في بيئة مهيأة تمنحك وقتًا للحركة والاسترخاء واستعادة الطاقة.",
+      link: "https://www.instagram.com/pilatess0studio?stkn=MWxqeGQ2ejN5dnM4dw==",
+      cat: 'other',
+      logo: "logos/p32.png"
+    },
+    {
+      id: 's39',
+      title: "رحلة البطل | تدريب  ",
+      description: "تدريب فردي لطفل واحد او 6 اطفال لمدة 4 ايام تدريبية، تقدم له خلالها تجربة تدريبية عملية ومخصصة تهدف الى تطوير مهاراته الشخصية والقيادية، وبناء ثقته بنفسه وقدرته على التعبير والتواصل والحضور.\nتشمل الخدمة:\n\n* التعرف على نقاط القوة والجوانب التي تحتاج الى تطوير لدى الطفل.\n* تدريبات عملية على الثقة بالنفس والحضور.\n* تنمية مهارات التحدث والتعبير عن الافكار والمشاعر.\n* تطوير مهارات التواصل والتفاعل مع الاخرين.\n* تدريبات على الالقاء والتحدث امام الجمهور بما يتناسب مع عمر الطفل.\n* انشطة وتطبيقات عملية تساعد الطفل على ممارسة المهارات وليس مجرد تعلمها.\n* توجيه فردي من المدرب خلال فترة التدريب.\n* تقييم قبلي وبعدي لمستوى الطفل وملاحظة التطور في المهارات المستهدفة.\n* مواد وحقائب تدريبية مساندة تساعد الطفل على استمرار الممارسة في المنزل.",
+      provider: "نبرة كلمة",
+      providerDescription: "رحلة البطل تجربة تدريبية فردية لمدة 4 ايام، تساعد الطفل على بناء ثقته بنفسه وتنمية مهارات التعبير والتواصل والحضور والالقاء من خلال التدريب والممارسة",
+      link: "https://www.instagram.com/nabrat.kalima?stkn=eHZyM212Zmd4MWU4",
+      cat: 'training',
+      logo: "logos/p5.png"
+    },
+    {
+      id: 's40',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتركّز على فهم الاحتياج ومناقشة التحديات وتقديم التوجيهات والتوصيات المناسبة، دون أن تشمل أي جلسات علاجية أو برامج علاجية ممتدة.",
+      provider: "ندى جبران",
+      providerDescription: "اخصائية نفسية ذات خبرة في مجال الصحة النفسية والإرشاد، ماجستير في التوجيه والإرشاد النفسي. أؤمن بأهمية الوعي النفسي، وأسعى لتقديم الدعم بأسلوب إنساني ومهني يساعد الأفراد على فهم ذواتهم.",
+      link: "https://wa.me/966552441932",
+      cat: 'other',
+      logo: "logos/p20.png"
+    },
+    {
+      id: 's41',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's42',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's43',
+      title: "استشارة نفسية",
+      description: "استشارة نفسية أولية تشمل التعرف على الحالة واحتياجاتها، وتطبيق المقاييس النفسية المناسبة، ثم إعداد تصور وخطة علاجية مبدئية وفق نتائج التقييم واحتياج المستفيد.",
+      provider: "سناء محمد",
+      providerDescription: "اخصائية نفسية ذات خبرة في مجال الصحة النفسية والإرشاد،ولدي ماجستير في التوجيه والإرشاد النفسي. أؤمن بأهمية الوعي النفسي، وأسعى لتقديم الدعم بأسلوب إنساني ومهني يساعد الأفراد على فهم ذواتهم.",
+      link: "https://wa.me/966557485136",
+      cat: 'other',
+      logo: "logos/p21.png"
+    },
+    {
+      id: 's44',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتهدف إلى مناقشة الاحتياج وتقديم التوجيه والتوصيات المناسبة، دون أن تشمل أي جلسات أو برامج علاجية.",
+      provider: "وجدان القحطاني",
+      providerDescription: "اهلاً وسهلاً معكم وجدان، أخصائية نفسية. أقدّم استشارات نفسية مجانية، وأسعى لأن أكون مساحة آمنة للاستماع والدعم، أواصل رحلتي حالياً في الدراسات العليا في التوجيه والارشاد النفسي.\n",
+      link: "https://wa.me/966532829226",
+      cat: 'other',
+      logo: "logos/p27.png"
+    },
+    {
+      id: 's45',
+      title: "مساحتك النفسية",
+      description: "جلسات دعم وتثقيف نفسي مخصصة للإناث، مدة كل جلسة 30 دقيقة، تتضمن الاستماع للمستفيدة، وتقديم التثقيف النفسي والإرشاد العام بما يتناسب مع احتياجها، دون أن تشمل التشخيص أو العلاج الطبي.",
+      provider: "سارة نجعي",
+      providerDescription: "أخصائية في الدعم والتثقيف النفسي، تقدم مساحة آمنة للاستماع والتعبير، وتساعد المستفيدات على فهم مشاعرهن والتعامل مع تحدياتهن اليومية.",
+      link: "https://wa.me/966553291033",
+      cat: 'other',
+      logo: "logos/p28.png"
+    },
+    {
+      id: 's46',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's47',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's48',
+      title: "استشارة تطوير شخصي مهني",
+      description: "جلسات فردية للتطوير الشخصي والمهني، تساعد على وضوح الأهداف والمسار وبناء خطوات عملية للتقدم. ",
+      provider: "محمد بنتن",
+      providerDescription: "كوتش وميسّر مهني معتمد من NCDA، ومدرب معتمد، حاصل على ماجستير ريادة أعمال، وباحث في التسويق ومؤسس أكاديمية بصير.",
+      link: "https://www.linkedin.com/in/mohammed-abdulaziz-bantan-6a7bb130a/",
+      cat: 'training',
+      logo: "logos/p29.png"
+    },
+    {
+      id: 's49',
+      title: "دورة الذكاء الاصطناعي باستخدام كلود",
+      description: "دورة تدريبية عملية لتعلم استخدام Claude باحتراف في العمل والمهام اليومية وبناء المشاريع والاستفادة من إمكانياته المتقدمة",
+      provider: "معهد أثر ",
+      providerDescription: "مركز أثر المطور للتدريب، مركز تدريبي معتمد من المؤسسة العامة للتدريب التقني والمهني، متخصص في تقديم برامج تدريبية عملية ومواكبة لسوق العمل في التصميم والتقنية والذكاء الاصطناعي",
+      link: "https://x.com/athar_tmd?s=21",
+      cat: 'training',
+      logo: "logos/p30.png"
+    },
+    {
+      id: 's50',
+      title: "كلاسات بيلاتس ريفورمر نسائية ",
+      description: "جلستان بيلاتس مجانيتان لكل فائزة، تشملان تدريبًا وإشرافًا مباشرًا من الكوتش طوال الحصة، ضمن تجربة تجمع بين القوة والمرونة والتوازن والاسترخاء.",
+      provider: "pilates studio",
+      providerDescription: "استديو متخصص في تمارين البيلاتس، يقدم تجربة تدريبية تساعد على تحسين المرونة والتوازن وتقوية الجسم، في بيئة مهيأة تمنحك وقتًا للحركة والاسترخاء واستعادة الطاقة.",
+      link: "https://www.instagram.com/pilatess0studio?stkn=MWxqeGQ2ejN5dnM4dw==",
+      cat: 'other',
+      logo: "logos/p32.png"
+    },
+    {
+      id: 's51',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's52',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's53',
+      title: "رحلة البطل | تدريب  ",
+      description: "تدريب فردي لطفل واحد او 6 اطفال لمدة 4 ايام تدريبية، تقدم له خلالها تجربة تدريبية عملية ومخصصة تهدف الى تطوير مهاراته الشخصية والقيادية، وبناء ثقته بنفسه وقدرته على التعبير والتواصل والحضور.\nتشمل الخدمة:\n\n* التعرف على نقاط القوة والجوانب التي تحتاج الى تطوير لدى الطفل.\n* تدريبات عملية على الثقة بالنفس والحضور.\n* تنمية مهارات التحدث والتعبير عن الافكار والمشاعر.\n* تطوير مهارات التواصل والتفاعل مع الاخرين.\n* تدريبات على الالقاء والتحدث امام الجمهور بما يتناسب مع عمر الطفل.\n* انشطة وتطبيقات عملية تساعد الطفل على ممارسة المهارات وليس مجرد تعلمها.\n* توجيه فردي من المدرب خلال فترة التدريب.\n* تقييم قبلي وبعدي لمستوى الطفل وملاحظة التطور في المهارات المستهدفة.\n* مواد وحقائب تدريبية مساندة تساعد الطفل على استمرار الممارسة في المنزل.",
+      provider: "نبرة كلمة",
+      providerDescription: "رحلة البطل تجربة تدريبية فردية لمدة 4 ايام، تساعد الطفل على بناء ثقته بنفسه وتنمية مهارات التعبير والتواصل والحضور والالقاء من خلال التدريب والممارسة",
+      link: "https://www.instagram.com/nabrat.kalima?stkn=eHZyM212Zmd4MWU4",
+      cat: 'training',
+      logo: "logos/p5.png"
+    },
+    {
+      id: 's54',
+      title: "تصميم زيّ مستوحى من التراث الجنوبي",
+      description: "تصميم أزياء خاص ومستوحة من التراث الجنوبي, يُعدّ للمستفيد بشكل حصري وفق رؤيتها وتفضيلاتها, مع تقديم التصور النهائي للتصميم في ملف pdf منسق وواضح.",
+      provider: "في السرحاني",
+      providerDescription: "مصممة أزياء وفنون تحول الأفكار والتفضيلات الشخصية إلى تصورات عصرية تحمل طابعًا محليًا مميزًا.",
+      link: "https://www.instagram.com/faya7mad?stkn=MWdvN2hld2duaTY3Mg==",
+      cat: 'design',
+      logo: "logos/p17.png"
+    },
+    {
+      id: 's55',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتركّز على فهم الاحتياج ومناقشة التحديات وتقديم التوجيهات والتوصيات المناسبة، دون أن تشمل أي جلسات علاجية أو برامج علاجية ممتدة.",
+      provider: "ندى جبران",
+      providerDescription: "اخصائية نفسية ذات خبرة في مجال الصحة النفسية والإرشاد، ماجستير في التوجيه والإرشاد النفسي. أؤمن بأهمية الوعي النفسي، وأسعى لتقديم الدعم بأسلوب إنساني ومهني يساعد الأفراد على فهم ذواتهم.",
+      link: "https://wa.me/966552441932",
+      cat: 'other',
+      logo: "logos/p20.png"
+    },
+    {
+      id: 's56',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's57',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's58',
+      title: "استشارة نفسية",
+      description: "استشارة نفسية أولية تشمل التعرف على الحالة واحتياجاتها، وتطبيق المقاييس النفسية المناسبة، ثم إعداد تصور وخطة علاجية مبدئية وفق نتائج التقييم واحتياج المستفيد.",
+      provider: "سناء محمد",
+      providerDescription: "اخصائية نفسية ذات خبرة في مجال الصحة النفسية والإرشاد،ولدي ماجستير في التوجيه والإرشاد النفسي. أؤمن بأهمية الوعي النفسي، وأسعى لتقديم الدعم بأسلوب إنساني ومهني يساعد الأفراد على فهم ذواتهم.",
+      link: "https://wa.me/966557485136",
+      cat: 'other',
+      logo: "logos/p21.png"
+    },
+    {
+      id: 's59',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتهدف إلى مناقشة الاحتياج وتقديم التوجيه والتوصيات المناسبة، دون أن تشمل أي جلسات أو برامج علاجية.",
+      provider: "وجدان القحطاني",
+      providerDescription: "اهلاً وسهلاً معكم وجدان، أخصائية نفسية. أقدّم استشارات نفسية مجانية، وأسعى لأن أكون مساحة آمنة للاستماع والدعم، أواصل رحلتي حالياً في الدراسات العليا في التوجيه والارشاد النفسي.\n",
+      link: "https://wa.me/966532829226",
+      cat: 'other',
+      logo: "logos/p27.png"
+    },
+    {
+      id: 's60',
+      title: "مساحتك النفسية",
+      description: "جلسات دعم وتثقيف نفسي مخصصة للإناث، مدة كل جلسة 30 دقيقة، تتضمن الاستماع للمستفيدة، وتقديم التثقيف النفسي والإرشاد العام بما يتناسب مع احتياجها، دون أن تشمل التشخيص أو العلاج الطبي.",
+      provider: "سارة نجعي",
+      providerDescription: "أخصائية في الدعم والتثقيف النفسي، تقدم مساحة آمنة للاستماع والتعبير، وتساعد المستفيدات على فهم مشاعرهن والتعامل مع تحدياتهن اليومية.",
+      link: "https://wa.me/966553291033",
+      cat: 'other',
+      logo: "logos/p28.png"
+    },
+    {
+      id: 's61',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's62',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's63',
+      title: "استشارة تطوير شخصي مهني",
+      description: "جلسات فردية للتطوير الشخصي والمهني، تساعد على وضوح الأهداف والمسار وبناء خطوات عملية للتقدم. ",
+      provider: "محمد بنتن",
+      providerDescription: "كوتش وميسّر مهني معتمد من NCDA، ومدرب معتمد، حاصل على ماجستير ريادة أعمال، وباحث في التسويق ومؤسس أكاديمية بصير.",
+      link: "https://www.linkedin.com/in/mohammed-abdulaziz-bantan-6a7bb130a/",
+      cat: 'training',
+      logo: "logos/p29.png"
+    },
+    {
+      id: 's64',
+      title: "دورة الذكاء الاصطناعي باستخدام كلود",
+      description: "دورة تدريبية عملية لتعلم استخدام Claude باحتراف في العمل والمهام اليومية وبناء المشاريع والاستفادة من إمكانياته المتقدمة",
+      provider: "معهد أثر ",
+      providerDescription: "مركز أثر المطور للتدريب، مركز تدريبي معتمد من المؤسسة العامة للتدريب التقني والمهني، متخصص في تقديم برامج تدريبية عملية ومواكبة لسوق العمل في التصميم والتقنية والذكاء الاصطناعي",
+      link: "https://x.com/athar_tmd?s=21",
+      cat: 'training',
+      logo: "logos/p30.png"
+    },
+    {
+      id: 's65',
+      title: "كلاسات بيلاتس ريفورمر نسائية ",
+      description: "جلستان بيلاتس مجانيتان لكل فائزة، تشملان تدريبًا وإشرافًا مباشرًا من الكوتش طوال الحصة، ضمن تجربة تجمع بين القوة والمرونة والتوازن والاسترخاء.",
+      provider: "pilates studio",
+      providerDescription: "استديو متخصص في تمارين البيلاتس، يقدم تجربة تدريبية تساعد على تحسين المرونة والتوازن وتقوية الجسم، في بيئة مهيأة تمنحك وقتًا للحركة والاسترخاء واستعادة الطاقة.",
+      link: "https://www.instagram.com/pilatess0studio?stkn=MWxqeGQ2ejN5dnM4dw==",
+      cat: 'other',
+      logo: "logos/p32.png"
+    },
+    {
+      id: 's66',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's67',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's68',
+      title: "رحلة البطل | تدريب  ",
+      description: "تدريب فردي لطفل واحد او 6 اطفال لمدة 4 ايام تدريبية، تقدم له خلالها تجربة تدريبية عملية ومخصصة تهدف الى تطوير مهاراته الشخصية والقيادية، وبناء ثقته بنفسه وقدرته على التعبير والتواصل والحضور.\nتشمل الخدمة:\n\n* التعرف على نقاط القوة والجوانب التي تحتاج الى تطوير لدى الطفل.\n* تدريبات عملية على الثقة بالنفس والحضور.\n* تنمية مهارات التحدث والتعبير عن الافكار والمشاعر.\n* تطوير مهارات التواصل والتفاعل مع الاخرين.\n* تدريبات على الالقاء والتحدث امام الجمهور بما يتناسب مع عمر الطفل.\n* انشطة وتطبيقات عملية تساعد الطفل على ممارسة المهارات وليس مجرد تعلمها.\n* توجيه فردي من المدرب خلال فترة التدريب.\n* تقييم قبلي وبعدي لمستوى الطفل وملاحظة التطور في المهارات المستهدفة.\n* مواد وحقائب تدريبية مساندة تساعد الطفل على استمرار الممارسة في المنزل.",
+      provider: "نبرة كلمة",
+      providerDescription: "رحلة البطل تجربة تدريبية فردية لمدة 4 ايام، تساعد الطفل على بناء ثقته بنفسه وتنمية مهارات التعبير والتواصل والحضور والالقاء من خلال التدريب والممارسة",
+      link: "https://www.instagram.com/nabrat.kalima?stkn=eHZyM212Zmd4MWU4",
+      cat: 'training',
+      logo: "logos/p5.png"
+    },
+    {
+      id: 's69',
+      title: "تصميم زيّ مستوحى من التراث الجنوبي",
+      description: "تصميم أزياء خاص ومستوحة من التراث الجنوبي, يُعدّ للمستفيد بشكل حصري وفق رؤيتها وتفضيلاتها, مع تقديم التصور النهائي للتصميم في ملف pdf منسق وواضح.",
+      provider: "في السرحاني",
+      providerDescription: "مصممة أزياء وفنون تحول الأفكار والتفضيلات الشخصية إلى تصورات عصرية تحمل طابعًا محليًا مميزًا.",
+      link: "https://www.instagram.com/faya7mad?stkn=MWdvN2hld2duaTY3Mg==",
+      cat: 'design',
+      logo: "logos/p17.png"
+    },
+    {
+      id: 's70',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتركّز على فهم الاحتياج ومناقشة التحديات وتقديم التوجيهات والتوصيات المناسبة، دون أن تشمل أي جلسات علاجية أو برامج علاجية ممتدة.",
+      provider: "ندى جبران",
+      providerDescription: "اخصائية نفسية ذات خبرة في مجال الصحة النفسية والإرشاد، ماجستير في التوجيه والإرشاد النفسي. أؤمن بأهمية الوعي النفسي، وأسعى لتقديم الدعم بأسلوب إنساني ومهني يساعد الأفراد على فهم ذواتهم.",
+      link: "https://wa.me/966552441932",
+      cat: 'other',
+      logo: "logos/p20.png"
+    },
+    {
+      id: 's71',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's72',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's73',
+      title: "استشارة نفسية",
+      description: "استشارة نفسية أولية تشمل التعرف على الحالة واحتياجاتها، وتطبيق المقاييس النفسية المناسبة، ثم إعداد تصور وخطة علاجية مبدئية وفق نتائج التقييم واحتياج المستفيد.",
+      provider: "سناء محمد",
+      providerDescription: "اخصائية نفسية ذات خبرة في مجال الصحة النفسية والإرشاد،ولدي ماجستير في التوجيه والإرشاد النفسي. أؤمن بأهمية الوعي النفسي، وأسعى لتقديم الدعم بأسلوب إنساني ومهني يساعد الأفراد على فهم ذواتهم.",
+      link: "https://wa.me/966557485136",
+      cat: 'other',
+      logo: "logos/p21.png"
+    },
+    {
+      id: 's74',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتهدف إلى مناقشة الاحتياج وتقديم التوجيه والتوصيات المناسبة، دون أن تشمل أي جلسات أو برامج علاجية.",
+      provider: "وجدان القحطاني",
+      providerDescription: "اهلاً وسهلاً معكم وجدان، أخصائية نفسية. أقدّم استشارات نفسية مجانية، وأسعى لأن أكون مساحة آمنة للاستماع والدعم، أواصل رحلتي حالياً في الدراسات العليا في التوجيه والارشاد النفسي.\n",
+      link: "https://wa.me/966532829226",
+      cat: 'other',
+      logo: "logos/p27.png"
+    },
+    {
+      id: 's75',
+      title: "مساحتك النفسية",
+      description: "جلسات دعم وتثقيف نفسي مخصصة للإناث، مدة كل جلسة 30 دقيقة، تتضمن الاستماع للمستفيدة، وتقديم التثقيف النفسي والإرشاد العام بما يتناسب مع احتياجها، دون أن تشمل التشخيص أو العلاج الطبي.",
+      provider: "سارة نجعي",
+      providerDescription: "أخصائية في الدعم والتثقيف النفسي، تقدم مساحة آمنة للاستماع والتعبير، وتساعد المستفيدات على فهم مشاعرهن والتعامل مع تحدياتهن اليومية.",
+      link: "https://wa.me/966553291033",
+      cat: 'other',
+      logo: "logos/p28.png"
+    },
+    {
+      id: 's76',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's77',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's78',
+      title: "استشارة تطوير شخصي مهني",
+      description: "جلسات فردية للتطوير الشخصي والمهني، تساعد على وضوح الأهداف والمسار وبناء خطوات عملية للتقدم. ",
+      provider: "محمد بنتن",
+      providerDescription: "كوتش وميسّر مهني معتمد من NCDA، ومدرب معتمد، حاصل على ماجستير ريادة أعمال، وباحث في التسويق ومؤسس أكاديمية بصير.",
+      link: "https://www.linkedin.com/in/mohammed-abdulaziz-bantan-6a7bb130a/",
+      cat: 'training',
+      logo: "logos/p29.png"
+    },
+    {
+      id: 's79',
+      title: "دورة الذكاء الاصطناعي باستخدام كلود",
+      description: "دورة تدريبية عملية لتعلم استخدام Claude باحتراف في العمل والمهام اليومية وبناء المشاريع والاستفادة من إمكانياته المتقدمة",
+      provider: "معهد أثر ",
+      providerDescription: "مركز أثر المطور للتدريب، مركز تدريبي معتمد من المؤسسة العامة للتدريب التقني والمهني، متخصص في تقديم برامج تدريبية عملية ومواكبة لسوق العمل في التصميم والتقنية والذكاء الاصطناعي",
+      link: "https://x.com/athar_tmd?s=21",
+      cat: 'training',
+      logo: "logos/p30.png"
+    },
+    {
+      id: 's80',
+      title: "كلاسات بيلاتس ريفورمر نسائية ",
+      description: "جلستان بيلاتس مجانيتان لكل فائزة، تشملان تدريبًا وإشرافًا مباشرًا من الكوتش طوال الحصة، ضمن تجربة تجمع بين القوة والمرونة والتوازن والاسترخاء.",
+      provider: "pilates studio",
+      providerDescription: "استديو متخصص في تمارين البيلاتس، يقدم تجربة تدريبية تساعد على تحسين المرونة والتوازن وتقوية الجسم، في بيئة مهيأة تمنحك وقتًا للحركة والاسترخاء واستعادة الطاقة.",
+      link: "https://www.instagram.com/pilatess0studio?stkn=MWxqeGQ2ejN5dnM4dw==",
+      cat: 'other',
+      logo: "logos/p32.png"
+    },
+    {
+      id: 's81',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's82',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's83',
+      title: "رحلة البطل | تدريب  ",
+      description: "تدريب فردي لطفل واحد او 6 اطفال لمدة 4 ايام تدريبية، تقدم له خلالها تجربة تدريبية عملية ومخصصة تهدف الى تطوير مهاراته الشخصية والقيادية، وبناء ثقته بنفسه وقدرته على التعبير والتواصل والحضور.\nتشمل الخدمة:\n\n* التعرف على نقاط القوة والجوانب التي تحتاج الى تطوير لدى الطفل.\n* تدريبات عملية على الثقة بالنفس والحضور.\n* تنمية مهارات التحدث والتعبير عن الافكار والمشاعر.\n* تطوير مهارات التواصل والتفاعل مع الاخرين.\n* تدريبات على الالقاء والتحدث امام الجمهور بما يتناسب مع عمر الطفل.\n* انشطة وتطبيقات عملية تساعد الطفل على ممارسة المهارات وليس مجرد تعلمها.\n* توجيه فردي من المدرب خلال فترة التدريب.\n* تقييم قبلي وبعدي لمستوى الطفل وملاحظة التطور في المهارات المستهدفة.\n* مواد وحقائب تدريبية مساندة تساعد الطفل على استمرار الممارسة في المنزل.",
+      provider: "نبرة كلمة",
+      providerDescription: "رحلة البطل تجربة تدريبية فردية لمدة 4 ايام، تساعد الطفل على بناء ثقته بنفسه وتنمية مهارات التعبير والتواصل والحضور والالقاء من خلال التدريب والممارسة",
+      link: "https://www.instagram.com/nabrat.kalima?stkn=eHZyM212Zmd4MWU4",
+      cat: 'training',
+      logo: "logos/p5.png"
+    },
+    {
+      id: 's84',
+      title: "   جلسة اتزان نفسي",
+      description: "جلسة استشارة نفسية فردية مجانية لمدة 40 دقيقة تشمل الاستماع المهني وفهم التحدي ووضع خطوات عملية مناسبة ملاحظة لا تشمل العلاج الدوائي أو الحالات التي تتطلب تدخلاً طبيًا متخصصًا ",
+      provider: "د. مريم الحربي",
+      providerDescription: "مستشارة نفسية حاصلة على البورد الأمريكي في الصحة النفسية ومتخصصة في الاستشارات النفسية والأسرية وتقدم خدماتها من خلال مركز مسارات\nو تقدم دعمًا مهنيًا يعزز الاتزان وجودة الحياة",
+      link: "",
+      cat: 'other',
+      logo: "logos/p1.png"
+    },
+    {
+      id: 's85',
+      title: "جلسة يوغا نسائية",
+      description: "جلسة يوغا واحدة لمدة 60 دقيقة، تشمل تمارين اليوغا والتنفس والاسترخاء والتأمل الختامي.",
+      provider: "Space By Hayam | yoga",
+      providerDescription: "مساحة نسائية تجمع بين الحركة والهدوء، وتهدف لمنحك لحظة من الاسترخاء والوعي بالجسد والتنفس، وسط أجواء دافئة وتجربة\nمميزة.",
+      link: "https://www.instagram.com/spacebyhayam?stkn=dnV5aXB3dXM0dmxt",
+      cat: 'other',
+      logo: "logos/p10.png"
+    },
+    {
+      id: 's86',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's87',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's88',
+      title: " تعليق صوتي",
+      description: "تسجيل تعليق صوتي احترافي عن بُعد، مناسب للفيديوهات والإعلانات والمحتوى التعليمي، بجودة صوت واضحة وأداء يعكس رسالتك بأفضل شكل.",
+      provider: "علي البارقي ",
+      providerDescription: " معلق صوتي وصانع محتوى إعلامي، أقدم خدمات التعليق الصوتي للوثائقيات والإعلانات والبودكاست بنبرة احترافية تعبر عن هويتنا الوطنية وتصل لقلب المستمع.",
+      link: "https://www.linkedin.com/in/alialbarqi?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
+      cat: 'photo',
+      logo: "logos/p11.png"
+    },
+    {
+      id: 's89',
+      title: "جلسة معالجات طبيعية  للشعر",
+      description: "جلسة عناية متكاملة بالشعر لمدة ساعة, تتضمن معالجات طبيعية وماسكات مغذية للمساعدة على ترطيب الشعر ومنحه إحساسًا بالحيوية.",
+      provider: "صالون تتش سبـا للخدمات المنزلية ",
+      providerDescription: "صالون تتش سبا للخدمات المنزلية جميع خدمات الصالونات بمنزلك",
+      link: "https://snapchat.com/t/W8M7OoGp",
+      cat: 'other',
+      logo: "logos/p12.png"
+    },
+    {
+      id: 's90',
+      title: "جدول غذائي مصمم حسب الهدف",
+      description: "إعداد خطة رياضية وغذائية مخصصة وفق الهدف, تشمل تنظيم الوجبات بما يتناسب مع احتياجات الفرد ونمط حياته.",
+      provider: "كوتش خلود",
+      providerDescription: "مدرّبة لياقة بدنية وتغذية متخصصة في تمارين المقاومة، اللياقة عالية الشدة، تأهيل الإصابات، والتغذية الرياضية، بخبرة 7 سنوات في المجال",
+      link: "https://www.snapchat.com/add/coach.kholood",
+      cat: 'other',
+      logo: "logos/p13.png"
+    },
+    {
+      id: 's91',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's92',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's93',
+      title: "بوكية ورد",
+      description: "بوكيه ورد بتنسيق أنيق ومميز, يُجهز بعناية ليكون مناسبًا للإهداء في مختلف المناسبات.",
+      provider: "فنون الهدية",
+      providerDescription: "حوّلت شغفي بتنسيق الزهور والفعاليات إلى مشروع ريادي ينبض بالحياة في عسير. أؤمن بأن كل هدية تحكي قصة، وأسعى دائماً لتقديم مفاهيم إبداعية فريدة تدمج الذوق الرفيع بالهوية العريقة بمنطقة عسير",
+      link: "https://www.instagram.com/gift_arts1?stkn=Z2MxZDdnZTRoa2xl",
+      cat: 'design',
+      logo: "logos/p14.png"
+    },
+    {
+      id: 's94',
+      title: "تموضع العلامة التجارية والشخصية",
+      description: "جلسة استشارية واحدة عن بُعد لمدة 30 دقيقة، تشمل مراجعة العلامة وتحليل تموضعها وتقديم توصيات تسويقية عملية للتحسين، ولا تشمل التنفيذ أو إعداد استراتيجية متكاملة.",
+      provider: "عبدالرحمن البطي",
+      providerDescription: "جلسة استشارية تساعدك على فهم تموضع علامتك التجارية أو هويتك الشخصية بشكل أوضح، وتحديد فرص التحسين، مع توصيات عملية تعزز وضوحها وتميّزها أمام جمهورك.",
+      link: "https://x.com/ablbatti?s=11",
+      cat: 'other',
+      logo: "logos/p15.png"
+    },
+    {
+      id: 's95',
+      title: "الإرشاد الذهني للنمو المالي والمهني",
+      description: "جلسة  أونلاين (٦٠ دقيقة) لتتعرف على طريقة التفكير إتجاة مشروعك— لا تشمل متابعة أو باقي البرنامج",
+      provider: "كوتش أريج",
+      providerDescription: "كوتش أريج، مرشدة  علوم العقل  متخصصة في إعادة برمجة العقل الباطن و طريقة التفكير تساعدك تكتشف المعتقد اللي يقف بينك وبين الصورة اللي تستحقها ، وتبني وعياً جديداً من الداخل.",
+      link: "https://www.instagram.com/sh0_areej?stkn=MTlqbTJoNGVwdmFicw==",
+      cat: 'business',
+      logo: "logos/p16.png"
+    },
+    {
+      id: 's96',
+      title: "تصميم زيّ مستوحى من التراث الجنوبي",
+      description: "تصميم أزياء خاص ومستوحة من التراث الجنوبي, يُعدّ للمستفيد بشكل حصري وفق رؤيتها وتفضيلاتها, مع تقديم التصور النهائي للتصميم في ملف pdf منسق وواضح.",
+      provider: "في السرحاني",
+      providerDescription: "مصممة أزياء وفنون تحول الأفكار والتفضيلات الشخصية إلى تصورات عصرية تحمل طابعًا محليًا مميزًا.",
+      link: "https://www.instagram.com/faya7mad?stkn=MWdvN2hld2duaTY3Mg==",
+      cat: 'design',
+      logo: "logos/p17.png"
+    },
+    {
+      id: 's97',
+      title: "استشارة مظهر",
+      description: "خدمة متخصصه لتحليل شكل الجسم وارشاد المستفيد الى القصات والتنسيقات المناسبة لطبيعة جسمة.",
+      provider: "في السرحاني",
+      providerDescription: "مصممة أزياء وفنون تحول الأفكار والتفضيلات الشخصية إلى تصورات عصرية تحمل طابعًا محليًا مميزًا.",
+      link: "https://www.instagram.com/faya7mad?stkn=MWdvN2hld2duaTY3Mg==",
+      cat: 'design',
+      logo: "logos/p17.png"
+    },
+    {
+      id: 's98',
+      title: "لوحة مرسومة يدوياً مستلهمه من التراث والطبيعة الجنوبية",
+      description: "رسم لوحة يدوياً مستلهمه من التراث والطبيعة الجنوبية تعكس اصالة ارضنا وشموخها, تشمل توصيل للمستفيد.",
+      provider: "في السرحاني",
+      providerDescription: "مصممة أزياء وفنون تحول الأفكار والتفضيلات الشخصية إلى تصورات عصرية تحمل طابعًا محليًا مميزًا.",
+      link: "https://www.instagram.com/faya7mad?stkn=MWdvN2hld2duaTY3Mg==",
+      cat: 'design',
+      logo: "logos/p17.png"
+    },
+    {
+      id: 's99',
+      title: "استضافة شهر مجانية",
+      description: "استضافة طفل واحد من عمر 3 إلى 4 سنوات مجانًا لمدة شهر كامل خلال أكتوبر 2026، من الساعة 7:00 صباحًا حتى 11:00 صباحًا.",
+      provider: "مركز إثراء الأيدي الصغيرة",
+      providerDescription: "مركز إثراء للأطفال هو وجهة توفر بيئة استضافة آمنة ومحفزة، تجمع بين الرعاية واللعب والتعلم والأنشطة الهادفة، بما يدعم نمو الطفل وتفاعله واستقلاليته من خلال تجربة متكاملة تجمع بين المتعة والفائدة.",
+      link: "https://wa.me/966535862733",
+      cat: 'training',
+      logo: "logos/p2.png"
+    },
+    {
+      id: 's100',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتركّز على فهم الاحتياج ومناقشة التحديات وتقديم التوجيهات والتوصيات المناسبة، دون أن تشمل أي جلسات علاجية أو برامج علاجية ممتدة.",
+      provider: "ندى جبران",
+      providerDescription: "اخصائية نفسية ذات خبرة في مجال الصحة النفسية والإرشاد، ماجستير في التوجيه والإرشاد النفسي. أؤمن بأهمية الوعي النفسي، وأسعى لتقديم الدعم بأسلوب إنساني ومهني يساعد الأفراد على فهم ذواتهم.",
+      link: "https://wa.me/966552441932",
+      cat: 'other',
+      logo: "logos/p20.png"
+    },
+    {
+      id: 's101',
+      title: "استشارة نفسية",
+      description: "استشارة نفسية أولية تشمل التعرف على الحالة واحتياجاتها، وتطبيق المقاييس النفسية المناسبة، ثم إعداد تصور وخطة علاجية مبدئية وفق نتائج التقييم واحتياج المستفيد.",
+      provider: "سناء محمد",
+      providerDescription: "اخصائية نفسية ذات خبرة في مجال الصحة النفسية والإرشاد،ولدي ماجستير في التوجيه والإرشاد النفسي. أؤمن بأهمية الوعي النفسي، وأسعى لتقديم الدعم بأسلوب إنساني ومهني يساعد الأفراد على فهم ذواتهم.",
+      link: "https://wa.me/966557485136",
+      cat: 'other',
+      logo: "logos/p21.png"
+    },
+    {
+      id: 's102',
+      title: "برنامج أساسيات الأمن السيبراني",
+      description: "جلسات تدريبية ومختبرات تطبيقية ومشروع نهائي خلال 7 أيام تدريبية (17 يوماً إجمالياً)، يشمل التطبيق والتقييم ولا يشمل تقديم استشارات تخصصية فردية.",
+      provider: "نيوتك ",
+      providerDescription: "برنامج تأهيلي ومُركّز لبناء أساس متين في الأمن السيبراني، يمزج بين الشرح النظري والمختبرات التطبيقية بحماية الأنظمة والشبكات وأمن الويب، وصولاً لمشروع نهائي يمنح المشارك مهارات خبرة عملية حقيقية.",
+      link: "https://x.com/nywtk1?s=21",
+      cat: 'training',
+      logo: "logos/p22.png"
+    },
+    {
+      id: 's103',
+      title: "جلسات الدعم النفسي والاستشارة",
+      description: "تتضمن الخدمة أربع جلسات استشارية تقييمية ودعمًا نفسيًا تُقدَّم للمستفيد نفسه، ولا تشمل التشخيص الطبي أو العلاج الدوائي.",
+      provider: "علوه محمد",
+      providerDescription: "أخصائية نفسية أقدم استشارات ودعماً نفسياً باستعمال العلاج المعرفي السلوكي، أساعدك على التعامل مع الضغوط والتفكير الزائد، وفهم مشاعرك لتحقيق التوازن النفسي والارتقاء بجودة حياتك بشكل متكامل.",
+      link: "https://www.snapchat.com/add/alwah_gmd",
+      cat: 'other',
+      logo: "logos/p23.png"
+    },
+    {
+      id: 's104',
+      title: "اصيص برسمة خاصة",
+      description: "تنفيذ رسومات فنية يدوية مبتكرة على الأصيصات، تجمع بين الفن والزراعة في قطعة جمالية مميزة.",
+      provider: "شموخ ",
+      providerDescription: "فنانة ورسامة ومعلمة فنون، امتلك خبرة في الرسم على الأصيصات وتقديم الأعمال الفنية اليدوية، واسعى من خلال أعمالي إلى نشر الفن بأسلوب إبداعي معاصر.",
+      link: "https://wa.me/966556189348",
+      cat: 'design',
+      logo: "logos/p24.png"
+    },
+    {
+      id: 's105',
+      title: "   بوكس سوشي مشكل كبير",
+      description: "بوكس سوشي مشكّل بحجم كبير، يضم تشكيلة متنوعة من قطع السوشي المختارة بعناية، ومناسب للمشاركة والتجمعات والمناسبات.",
+      provider: "مطعم سوشي جوجو ",
+      providerDescription: "هاجر القحطاني، حوّلت شغفي بالطهي من تجربة منزلية إلى مطعمي الخاص للسوشي. أطمح للتطور المستمر، وصقل مهاراتي، وصناعة تجربة مميزة وأثر ملهم",
+      link: "https://www.snapchat.com/add/Ljory1410",
+      cat: 'other',
+      logo: "logos/p25.png"
+    },
+    {
+      id: 's106',
+      title: "استشارة نفسية",
+      description: "جلسة استشارية فردية تُقدَّم لمرة واحدة لكل مستفيد، وتهدف إلى مناقشة الاحتياج وتقديم التوجيه والتوصيات المناسبة، دون أن تشمل أي جلسات أو برامج علاجية.",
+      provider: "وجدان القحطاني",
+      providerDescription: "اهلاً وسهلاً معكم وجدان، أخصائية نفسية. أقدّم استشارات نفسية مجانية، وأسعى لأن أكون مساحة آمنة للاستماع والدعم، أواصل رحلتي حالياً في الدراسات العليا في التوجيه والارشاد النفسي.\n",
+      link: "https://wa.me/966532829226",
+      cat: 'other',
+      logo: "logos/p27.png"
+    },
+    {
+      id: 's107',
+      title: "مساحتك النفسية",
+      description: "جلسات دعم وتثقيف نفسي مخصصة للإناث، مدة كل جلسة 30 دقيقة، تتضمن الاستماع للمستفيدة، وتقديم التثقيف النفسي والإرشاد العام بما يتناسب مع احتياجها، دون أن تشمل التشخيص أو العلاج الطبي.",
+      provider: "سارة نجعي",
+      providerDescription: "أخصائية في الدعم والتثقيف النفسي، تقدم مساحة آمنة للاستماع والتعبير، وتساعد المستفيدات على فهم مشاعرهن والتعامل مع تحدياتهن اليومية.",
+      link: "https://wa.me/966553291033",
+      cat: 'other',
+      logo: "logos/p28.png"
+    },
+    {
+      id: 's108',
+      title: "استشارة تطوير شخصي مهني",
+      description: "جلسات فردية للتطوير الشخصي والمهني، تساعد على وضوح الأهداف والمسار وبناء خطوات عملية للتقدم. ",
+      provider: "محمد بنتن",
+      providerDescription: "كوتش وميسّر مهني معتمد من NCDA، ومدرب معتمد، حاصل على ماجستير ريادة أعمال، وباحث في التسويق ومؤسس أكاديمية بصير.",
+      link: "https://www.linkedin.com/in/mohammed-abdulaziz-bantan-6a7bb130a/",
+      cat: 'training',
+      logo: "logos/p29.png"
+    },
+    {
+      id: 's109',
+      title: "دورة الذكاء الاصطناعي باستخدام كلود",
+      description: "دورة تدريبية عملية لتعلم استخدام Claude باحتراف في العمل والمهام اليومية وبناء المشاريع والاستفادة من إمكانياته المتقدمة",
+      provider: "معهد أثر ",
+      providerDescription: "مركز أثر المطور للتدريب، مركز تدريبي معتمد من المؤسسة العامة للتدريب التقني والمهني، متخصص في تقديم برامج تدريبية عملية ومواكبة لسوق العمل في التصميم والتقنية والذكاء الاصطناعي",
+      link: "https://x.com/athar_tmd?s=21",
+      cat: 'training',
+      logo: "logos/p30.png"
+    },
+    {
+      id: 's110',
+      title: "اشتراك سنوي مجاني",
+      description: "إنشاء جدول رياضي مخصص، متابعة التقدم اليومي، وتسجيل التغذية والسعرات الحرارية",
+      provider: "تطبيق لود اب الرياضي",
+      providerDescription: "تطبيق لود أب الرياضي يساعد المستخدم على تنظيم رحلته الرياضية من خلال إنشاء جدول تدريبي، تسجيل ومتابعة التقدم اليومي، ومتابعة التغذية والسعرات الحرارية بشكل مستمر",
+      link: "https://apps.apple.com/us/app/lodup/id6800266120",
+      cat: 'other',
+      logo: "logos/p31.png"
+    },
+    {
+      id: 's111',
+      title: "كلاسات بيلاتس ريفورمر نسائية ",
+      description: "جلستان بيلاتس مجانيتان لكل فائزة، تشملان تدريبًا وإشرافًا مباشرًا من الكوتش طوال الحصة، ضمن تجربة تجمع بين القوة والمرونة والتوازن والاسترخاء.",
+      provider: "pilates studio",
+      providerDescription: "استديو متخصص في تمارين البيلاتس، يقدم تجربة تدريبية تساعد على تحسين المرونة والتوازن وتقوية الجسم، في بيئة مهيأة تمنحك وقتًا للحركة والاسترخاء واستعادة الطاقة.",
+      link: "https://www.instagram.com/pilatess0studio?stkn=MWxqeGQ2ejN5dnM4dw==",
+      cat: 'other',
+      logo: "logos/p32.png"
+    },
+    {
+      id: 's112',
+      title: "تجربة يوم مجاني",
+      description: "يوم رياضي مجاني في نادي Fitness Lines، يتيح للمستفيد استخدام مرافق النادي والاستفادة من الكلاسات الجماعية المتاحة خلال اليوم.",
+      provider: "نادي Fitness Lines",
+      providerDescription: "Fitness Lines نادٍ رياضي يقدم تجربة متكاملة تجمع بين التمارين، المرافق الرياضية، والكلاسات الجماعية المتنوعة، بما يساعد على بناء نمط حياة أكثر نشاطًا وحيوية.",
+      link: "",
+      cat: 'other',
+      logo: "logos/p33.png"
+    },
+    {
+      id: 's113',
+      title: "شهر تدريب أونلاين ",
+      description: "خطة تدريب مخصصه لمدة شهر أونلاين تشمل ( متابعه اسبوعيه) لا تشمل الخدمة الحالات التي تتطلب تأهيلًا أو علاجًا طبيعيًا.",
+      provider: "كوتش غادة",
+      providerDescription: "مدربة لياقة بدنية معتمدة دوليًا، أساعد الأفراد على تحقيق أهدافهم الرياضية من خلال برامج تدريبية مخصصة، عملية، ومستدامة، تناسب مستوياتهم واحتياجاتهم.",
+      link: "WA : @coach.ghadah",
+      cat: 'other',
+      logo: "logos/p34.png"
+    },
+    {
+      id: 's114',
+      title: "الخدمات القانونية",
+      description: "استشارة قانونية عامة تقدَّم كتابةً عبر الواتساب، تجاوب على استفساراتك النظامية وتوضح موقفك القانوني وتقترح الخطوات المناسبة، خلال يومي عمل من استلام الطلب. لا تشمل صياغة العقود أو التمثيل أمام الجهات القضائية أو المتابعة المستمرة.",
+      provider: "عبير البتال",
+      providerDescription: "محامية ومستشارة قانونية متخصصة في نظام الإفلاس والأنظمة التجارية",
+      link: "https://x.com/abeer_4th?s=20",
+      cat: 'business',
+      logo: "logos/p4.png"
+    },
+    {
+      id: 's115',
+      title: "رحلة البطل | تدريب  ",
+      description: "تدريب فردي لطفل واحد او 6 اطفال لمدة 4 ايام تدريبية، تقدم له خلالها تجربة تدريبية عملية ومخصصة تهدف الى تطوير مهاراته الشخصية والقيادية، وبناء ثقته بنفسه وقدرته على التعبير والتواصل والحضور.\nتشمل الخدمة:\n\n* التعرف على نقاط القوة والجوانب التي تحتاج الى تطوير لدى الطفل.\n* تدريبات عملية على الثقة بالنفس والحضور.\n* تنمية مهارات التحدث والتعبير عن الافكار والمشاعر.\n* تطوير مهارات التواصل والتفاعل مع الاخرين.\n* تدريبات على الالقاء والتحدث امام الجمهور بما يتناسب مع عمر الطفل.\n* انشطة وتطبيقات عملية تساعد الطفل على ممارسة المهارات وليس مجرد تعلمها.\n* توجيه فردي من المدرب خلال فترة التدريب.\n* تقييم قبلي وبعدي لمستوى الطفل وملاحظة التطور في المهارات المستهدفة.\n* مواد وحقائب تدريبية مساندة تساعد الطفل على استمرار الممارسة في المنزل.",
+      provider: "نبرة كلمة",
+      providerDescription: "رحلة البطل تجربة تدريبية فردية لمدة 4 ايام، تساعد الطفل على بناء ثقته بنفسه وتنمية مهارات التعبير والتواصل والحضور والالقاء من خلال التدريب والممارسة",
+      link: "https://www.instagram.com/nabrat.kalima?stkn=eHZyM212Zmd4MWU4",
+      cat: 'training',
+      logo: "logos/p5.png"
+    },
+    {
+      id: 's116',
+      title: "اسأل اخصائي الاشعة",
+      description: "جلسة تثقيفية واحدة لمدة 15-30 دقيقة تشمل التعريف بفحوصات X-ray وCT وMRI والاستعداد لها، ولا تشمل التشخيص أو قراءة الصور الطبية.",
+      provider: "شذا آل حبشان",
+      providerDescription: "أخصائية أشعة تشخيصية بخبرة تتجاوز 7 سنوات في مجال التصوير الطبي، مع خبرة متقدمة في MRI وCT وتطوير وتحسين سير العمل بقسم الأشعة.",
+      link: "https://www.linkedin.com/in/shathaalha4?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
+      cat: 'other',
+      logo: "logos/p6.png"
+    },
+    {
+      id: 's117',
+      title: "وعي ضد سرطان الثدي",
+      description: "جلسة توعوية واحدة لمدة 30 دقيقة عن سرطان الثدي وعوامل الخطورة وأهمية الكشف المبكر وفحوصات الماموغرام، ولا تشمل التشخيص أو تقييم الحالات الطبية الفردية.",
+      provider: "شذا آل حبشان",
+      providerDescription: "أخصائية أشعة تشخيصية بخبرة تتجاوز 7 سنوات في مجال التصوير الطبي، مع خبرة متقدمة في MRI وCT وتطوير وتحسين سير العمل بقسم الأشعة.",
+      link: "https://www.linkedin.com/in/shathaalha4?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
+      cat: 'other',
+      logo: "logos/p6.png"
+    },
+    {
+      id: 's118',
+      title: "جلسة تقييم الجانب النفسي والشخصي\nلرئد الأعمال",
+      description: "جلسة تشمل تقييم نفسي وشخصي وتحديد نقطة التعثر ثم توجيه الشخص للطريقه المثلى لتجاوز نقطة الألم النفسي أو الشخصي.",
+      provider: "مجتمع مرايا",
+      providerDescription: "مجتمع مرايا يساعد رائد الأعمال يبني رأسماله النفسي إلى جانب رأسماله المالي, من خلال تحليل سلوكه المالي, وكشف الأنماط النفسية التي تعطّل قراراته, وتطوير المهارات الشخصية التي تُيسر رحلته الريادية.",
+      link: "https://wa.me/966501225106",
+      cat: 'business',
+      logo: "logos/p9.png"
+    }
   ];
 
   // مغلّفة بـ if احترازيًا: لو أي عنصر من هذول انحذف بالغلط بتعديل يدوي لاحق، ما يوقف بقية الكود
@@ -1111,6 +2196,7 @@ const SERVICES = [
         id: s.id,
         name: s.title,
         provider: s.provider,
+        providerDescription: s.providerDescription || '',
         account: s.link,
         description: s.description || '',
         phone: s.phone || '',
@@ -1141,6 +2227,7 @@ const SERVICES = [
         id: s.id,
         name: s.title,
         provider: s.provider,
+        providerDescription: s.providerDescription || '',
         account: s.link,
         description: s.description || '',
         phone: s.phone || '',
@@ -1181,9 +2268,11 @@ const SERVICES = [
     $('detailServiceName').textContent = service.name;
     $('detailDescription').textContent = categoryDescription(service);
     $('detailProvider').textContent = service.provider || 'غير مضاف';
-    $('detailAccount').innerHTML = service.account
-      ? `<a class="detail-link" href="${escapeHtml(service.account)}" target="_blank" rel="noopener">فتح حساب مقدم الخدمة</a>`
-      : 'لم يُضف رابط الحساب بعد';
+    $('detailProviderDescription').textContent = service.providerDescription || 'لم تُضف نبذة عن مقدم الخدمة بعد';
+    const accountValue = String(service.account || '').trim();
+    $('detailAccount').innerHTML = /^https?:\/\//i.test(accountValue)
+      ? `<a class="detail-link" href="${escapeHtml(accountValue)}" target="_blank" rel="noopener">فتح حساب مقدم الخدمة</a>`
+      : (accountValue ? escapeHtml(accountValue) : 'لم يُضف رابط الحساب بعد');
     $('detailLogoWrap').innerHTML = service.logo
       ? `<img class="detail-logo" src="${escapeHtml(service.logo)}" alt="" onerror="this.outerHTML='<div class=\\'detail-logo-fallback\\'>${escapeHtml(initialLetter(service.provider))}</div>'">`
       : `<div class="detail-logo-fallback">${escapeHtml(initialLetter(service.provider))}</div>`;
