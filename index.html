@@ -342,7 +342,7 @@ p, li{ line-height:1.9; }
 .site-footer{
   position:relative; z-index:2;
   display:flex; direction:rtl; align-items:center; justify-content:space-between;
-  gap:12px; margin-top:28px;
+  gap:12px; margin-top:0;
   padding:15px clamp(16px,5vw,26px) calc(15px + env(safe-area-inset-bottom));
   border-top:1px solid rgba(234,240,243,.10);
   background:rgba(20,12,28,.38);
@@ -369,13 +369,16 @@ p, li{ line-height:1.9; }
 
 
 /* ===== requested layout refinements ===== */
-#stage{display:flex;flex-direction:column;padding-bottom:0;}
-.site-footer{margin-top:auto;}
+#stage{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;padding-bottom:0;}
+.site-footer{margin-top:auto!important;flex-shrink:0;width:100%;position:relative;inset:auto;bottom:auto;}
+.services-frame,.complete-box,#emptyState,#errorState,#loadingState{flex-shrink:0;}
 .topbar .ezzona-logo{height:104px;max-width:52%;}
 .topbar .khumas-logo{height:66px;max-width:43%;}
 .footer-name{display:none!important;}
 .service-detail{display:none;text-align:right;}
-.service-detail.active{display:block;}
+.service-detail.active{display:block!important;}
+#bookingPanel{display:none;}
+#modal.active .sheet{visibility:visible;opacity:1;}
 .detail-hero{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid rgba(43,26,50,.10);}
 .detail-logo{width:58px;height:58px;border-radius:15px;object-fit:cover;background:rgba(43,26,50,.08);flex:0 0 auto;}
 .detail-logo-fallback{width:58px;height:58px;border-radius:15px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--indigo),var(--mauve));color:white;font-weight:800;font-size:1.2rem;flex:0 0 auto;}
@@ -1079,10 +1082,8 @@ const SERVICES = [
         // المحاولة بناءً على تخزين متصفحه القديم — القرار الفعلي يصير عند الإرسال
         // بالتحقق المباشر من Airtable، فلو حذفتِ سجل شخص من هناك يقدر يسجّل من جديد
         // فورًا حتى من نفس جهازه، بدون ما يبقى محجوبًا بسبب بيانات قديمة بمتصفحه.
-        if (CONFIG.DEMO_MODE && !CONFIG.TESTING_UNLIMITED_CLAIMS && hasClaimedLocally()){
-          showToast('لقد استخدمت خدمتك بالفعل — يُسمح بخدمة واحدة فقط لكل شخص');
-          return;
-        }
+        // تفاصيل الخدمة يجب أن تكون متاحة دائمًا عند الضغط على البطاقة.
+        // التحقق من أهلية الحجز يتم عند الإرسال، وليس قبل عرض التفاصيل.
         openClaim(s, tile);
       };
       tile.querySelector('.btn-claim-tile').addEventListener('click', (e) => { e.stopPropagation(); openHandler(); });
@@ -1204,6 +1205,10 @@ const SERVICES = [
       ? `مقدّم الخدمة: <b>${escapeHtml(service.provider)}</b> — <a href="${service.account}" target="_blank" rel="noopener">عرض الحساب </a>`
       : `مقدّم الخدمة: <b>${escapeHtml(service.provider)}</b>`;
     $('modal').classList.add('active');
+    // نعيد تأكيد شاشة التفاصيل بعد إظهار النافذة حتى لا تبقى شاشة الحجز من فتح سابق.
+    showServiceDetails(service);
+    const sheet = document.querySelector('#modal .sheet');
+    if (sheet) sheet.scrollTop = 0;
     document.body.style.overflow = 'hidden';
   }
   function closeModal(){
