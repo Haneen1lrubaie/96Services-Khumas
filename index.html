@@ -523,7 +523,6 @@ input[type="reset"] {
         </div>
         <div class="detail-section"><div class="detail-label">وصف الخدمة</div><div class="detail-value" id="detailDescription"></div></div>
         <div class="detail-section"><div class="detail-label">مقدم الخدمة</div><div class="detail-value" id="detailProvider"></div></div>
-        <div class="detail-section"><div class="detail-label">رقم التواصل</div><div class="detail-value" id="detailPhone"></div></div>
         <div class="detail-section"><div class="detail-label">حساب / رابط مقدم الخدمة</div><div class="detail-value" id="detailAccount"></div></div>
         <div class="detail-actions"><button class="btn-primary" id="continueBooking" type="button">متابعة للحجز والإقرار</button><button class="btn-plain" id="cancelDetail" type="button">رجوع</button></div>
       </div>
@@ -1182,8 +1181,6 @@ const SERVICES = [
     $('detailServiceName').textContent = service.name;
     $('detailDescription').textContent = categoryDescription(service);
     $('detailProvider').textContent = service.provider || 'غير مضاف';
-    const phone = servicePhone(service);
-    $('detailPhone').textContent = phone || 'لم يُضف رقم التواصل بعد';
     $('detailAccount').innerHTML = service.account
       ? `<a class="detail-link" href="${escapeHtml(service.account)}" target="_blank" rel="noopener">فتح حساب مقدم الخدمة</a>`
       : 'لم يُضف رابط الحساب بعد';
