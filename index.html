@@ -413,8 +413,8 @@ input[type="reset"] {
   </div>
 
   <section class="hero">
-    <h1 class="display">٣٤ خدمة تُهدى باسم <span class="text-grad">الوطن</span></h1>
-    <p>مجتمع خماس يقدّم ٣٤ خدمة مجانية احتفالًا باليوم الوطني.</p>
+    <h1 class="display">٩٦ خدمة تُهدى باسم <span class="text-grad">الوطن</span></h1>
+    <p>مجتمع خماس يقدّم ٩٦ خدمة مجانية احتفالًا باليوم الوطني.</p>
   </section>
 
   <div class="map-wrap">
@@ -429,7 +429,7 @@ input[type="reset"] {
         <g clip-path="url(#ksaClip)" id="piecesLayer"></g>
       </svg>
     </div>
-    <div class="map-counter"><span class="num text-grad" id="counterNum">٠</span><span class="of">من 96 قطعة اكتملت في الخريطة</span></div>
+    <div class="map-counter"><span class="num text-grad" id="counterNum">٠</span><span class="of">من ٩٦ قطعة اكتملت في الخريطة</span></div>
     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
   </div>
 
@@ -465,7 +465,7 @@ input[type="reset"] {
 
   <div class="complete-box" id="completeBox" style="display:none;">
     <h3>اكتملت خريطة <span class="text-grad">الوطن</span></h3>
-    <p>٣٤ خدمة اكتملت باسم اليوم الوطني الـ٩٦ — شكرًا لكل من شارك وأثرى هذا الاحتفال بمجتمع خماس. نراكم في مبادرة قادمة!</p>
+    <p>٩٦ خدمة اكتملت باسم اليوم الوطني الـ٩٦ — شكرًا لكل من شارك وأثرى هذا الاحتفال بمجتمع خماس. نراكم في مبادرة قادمة!</p>
     <div class="social-row">
       <a class="social-btn" id="linkWebsite" href="https://www.khumas.sa" target="_blank" rel="noopener">زوروا موقع خماس</a>
     </div>
@@ -1809,14 +1809,14 @@ const SERVICES = [
   if (document.getElementById('successWebsite')) document.getElementById('successWebsite').href = CONFIG.WEBSITE_URL;
 
   const $ = (id) => document.getElementById(id);
-  const toArabicDigits = (n) => String(n).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+  const toArabicDigits = (n) => String(n).replace(/[0-9]/g, d => '٠١٢٩٦٥٦٧٨٩'[d]);
   const LOCAL_CLAIM_KEY = 'khumas96_svc_claimed_phone';
 
   // ---------- build the 34-piece puzzle map ----------
   // كل قطعة هنا شكل حقيقي مبني هندسيًا من دمج عدة أجزاء متجاورة من تقسيم أصلي دقيق
-  // لمساحة خريطة المملكة الفعلية (تبليط Voronoi مقصوص على حدود الخريطة نفسها) في ٣٤ قطعة
-  // نهائية — يعني كل قطعة مضمون ظهورها داخل حدود الخريطة، وكل الـ٣٤ قطعة مع بعض تغطي
-  // الخريطة بالكامل بدون أي فراغ، بحيث يكتمل شكل الخريطة تمامًا عند اكتمال الـ٣٤ خدمة.
+  // لمساحة خريطة المملكة الفعلية (تبليط Voronoi مقصوص على حدود الخريطة نفسها) في ٩٦ قطعة
+  // نهائية — يعني كل قطعة مضمون ظهورها داخل حدود الخريطة، وكل الـ٩٦ قطعة مع بعض تغطي
+  // الخريطة بالكامل بدون أي فراغ، بحيث يكتمل شكل الخريطة تمامًا عند اكتمال الـ٩٦ خدمة.
   const PIECE_PATHS = [
     "M95.6,71.8 L73.2,75.9 L94.3,108.2 L127.2,99.2 L121.6,61.5 L108.5,58.6 L95.6,71.8 Z M70.2,76.4 L47.8,98.6 L43.1,97.9 L51.1,127.1 L85.1,135.0 L94.3,108.2 L73.2,75.9 L70.2,76.4 Z M10.8,93.3 L0.0,136.5 L16.6,136.4 L27.3,151.0 L51.1,127.1 L43.1,97.9 L10.8,93.3 Z",
     "M51.4,184.0 L81.5,168.0 L87.0,138.8 L85.1,135.0 L51.1,127.1 L27.3,151.0 L51.4,184.0 Z M76.5,218.2 L81.6,230.3 L102.7,217.5 L106.5,188.0 L81.5,168.0 L51.4,184.0 L76.5,218.2 Z M150.0,361.7 L164.5,382.6 L201.0,351.3 L186.2,314.3 L185.8,314.1 L147.9,324.9 L150.0,361.7 Z",
