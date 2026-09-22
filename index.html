@@ -556,7 +556,7 @@ input[type="reset"] {
 
     // قيد "خدمة واحدة فقط لكل شخص" مفعّل الآن (false). فعّلي true مؤقتًا للاختبار فقط،
     // ولا تنسي ترجعينها false قبل عرض الصفحة على أي شخص فعليًا.
-    TESTING_UNLIMITED_CLAIMS: true, // الحجز أصبح متاحًا لأكثر من شخص لنفس الخدمة؛ فريق خماس يراجع الطلبات ويقرر لاحقًا
+    ONE_SERVICE_PER_PHONE: true, // القيد الحقيقي: كل رقم جوال يحجز خدمة واحدة فقط طوال المبادرة (الخدمة نفسها تبقى مفتوحة لعدد غير محدود من الأشخاص المختلفين)
 
     // ملاحظة أمنية: لم يعد إعداد Airtable (Base ID / Table Name / Token) موجودًا هنا إطلاقًا.
     // كل التواصل مع Airtable يمر الآن عبر دوال الخادم في مجلد /api (انظري التعليمات بالأعلى)،
@@ -2056,6 +2056,10 @@ const SERVICES = [
   }
   function claimServiceLocally(payload){
     const claims = getDemoClaims();
+    if (CONFIG.ONE_SERVICE_PER_PHONE){
+      const alreadyByPhone = Object.values(claims).some(list => list.some(c => c.phone === payload.phone));
+      if (alreadyByPhone) return { error: 'already_claimed_by_phone' };
+    }
     if (!claims[payload.service_id]) claims[payload.service_id] = [];
     claims[payload.service_id].push({ name: payload.name, phone: payload.phone, email: payload.email || '', reason: payload.reason || '', date: new Date().toISOString() });
     saveDemoClaims(claims);
@@ -2130,7 +2134,7 @@ const SERVICES = [
   }
 
   function renderClaimedBanner(){
-    $('claimedBanner').style.display = (!CONFIG.TESTING_UNLIMITED_CLAIMS && hasClaimedLocally()) ? 'flex' : 'none';
+    $('claimedBanner').style.display = (CONFIG.ONE_SERVICE_PER_PHONE && hasClaimedLocally()) ? 'flex' : 'none';
   }
 
   function renderCatChips(availableAll){
@@ -2414,11 +2418,19 @@ const SERVICES = [
 
     btn.disabled = false; btn.textContent = 'إرسال الطلب';
 
+    if (r.error === 'already_claimed_by_phone'){
+      errEl.textContent = 'هذا الرقم سبق أن حجز خدمة أخرى — خدمة واحدة فقط لكل شخص.';
+      errEl.style.display = 'block';
+      lockLocally(phone);
+      return;
+    }
     if (r.error){
       errEl.textContent = 'صار خطأ غير متوقع، حاول مرة أخرى.';
       errEl.style.display = 'block';
       return;
     }
+
+    lockLocally(phone);
 
     pendingAnimationIndex = document.querySelectorAll('.piece.filled').length;
     $('formWrap').style.display = 'none';
