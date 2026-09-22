@@ -499,6 +499,7 @@ input[type="reset"] {
         <div class="detail-section"><div class="detail-label">وصف الخدمة</div><div class="detail-value" id="detailDescription"></div></div>
         <div class="detail-section"><div class="detail-label">مقدم الخدمة</div><div class="detail-value" id="detailProvider"></div></div>
         <div class="detail-section"><div class="detail-label">عن مقدم الخدمة</div><div class="detail-value" id="detailProviderDescription"></div></div>
+        <div class="detail-section"><div class="detail-label">مساهمة هذا المزود</div><div class="detail-value" id="detailProviderCount"></div></div>
         <div class="detail-section"><div class="detail-label">حساب / رابط مقدم الخدمة</div><div class="detail-value" id="detailAccount"></div></div>
         <div class="detail-actions"><button class="btn-primary" id="continueBooking" type="button">متابعة للحجز والإقرار</button><button class="btn-plain" id="cancelDetail" type="button">رجوع</button></div>
       </div>
@@ -509,6 +510,7 @@ input[type="reset"] {
 
       <div class="field"><label for="claimName">الاسم</label><input type="text" id="claimName" placeholder="اسمك الكامل"></div>
       <div class="field"><label for="claimPhone">رقم الجوال</label><input type="tel" id="claimPhone" placeholder="05xxxxxxxx" inputmode="numeric"></div>
+      <div class="field"><label for="claimEmail">البريد الإلكتروني</label><input type="email" id="claimEmail" placeholder="example@email.com" inputmode="email"></div>
       <div class="field"><label for="claimReason">سبب اختيارك لهذه الهدية</label><textarea id="claimReason" rows="3" placeholder="اكتب/ي بإيجاز ليش تحتاج/ين هذه الخدمة تحديدًا"></textarea></div>
 
       <div class="terms">
@@ -517,7 +519,7 @@ input[type="reset"] {
         <label class="term-line"><input type="checkbox" id="term2"><span>أوافق على <a href="terms.html" target="_blank" rel="noopener" class="terms-link">الشروط والأحكام وسياسة الخصوصية</a> الخاصة بمبادرة خماس.</span></label>
       </div>
 
-      <div class="priority-note">تنويه: تُمنح الخدمات حسب أولوية الحاجة إليها، وقد يتواصل معك فريق خماس للتأكيد قبل التفعيل النهائي.</div>
+      <div class="priority-note">طلبك للخدمة لا يعني بالضرورة حصولك عليها.<br>تنويه: تُمنح الخدمات حسب أولوية الحاجة إليها، وقد يتواصل معك فريق خماس للتأكيد قبل التفعيل النهائي.</div>
 
       <div class="form-error" id="formError"></div>
       <button class="btn-primary" id="submitClaim">إرسال الطلب</button>
@@ -530,7 +532,7 @@ input[type="reset"] {
         <circle class="check-circle" cx="26" cy="26" r="23"/>
         <path class="check-mark" d="M15 27l7 7 15-15"/>
       </svg>
-      <p>تم إرسال طلبك بنجاح! تمت إضافة قطعتك إلى خريطة الوطن، وسيتواصل معك فريق خماس قريبًا لتفعيل خدمتك.</p>
+      <p>اكتملت بطلبك قطعة من الوطن</p>
       <a class="btn-primary" style="text-decoration:none; display:block; text-align:center;" id="successWebsite" href="https://www.khumas.sa" target="_blank" rel="noopener">زوروا موقع خماس</a>
       <button class="btn-plain" id="closeSuccess">إغلاق</button>
     </div>
@@ -554,7 +556,7 @@ input[type="reset"] {
 
     // قيد "خدمة واحدة فقط لكل شخص" مفعّل الآن (false). فعّلي true مؤقتًا للاختبار فقط،
     // ولا تنسي ترجعينها false قبل عرض الصفحة على أي شخص فعليًا.
-    TESTING_UNLIMITED_CLAIMS: false,
+    TESTING_UNLIMITED_CLAIMS: true, // الحجز أصبح متاحًا لأكثر من شخص لنفس الخدمة؛ فريق خماس يراجع الطلبات ويقرر لاحقًا
 
     // ملاحظة أمنية: لم يعد إعداد Airtable (Base ID / Table Name / Token) موجودًا هنا إطلاقًا.
     // كل التواصل مع Airtable يمر الآن عبر دوال الخادم في مجلد /api (انظري التعليمات بالأعلى)،
@@ -2054,12 +2056,8 @@ const SERVICES = [
   }
   function claimServiceLocally(payload){
     const claims = getDemoClaims();
-    if (!CONFIG.TESTING_UNLIMITED_CLAIMS){
-      const alreadyByPhone = Object.values(claims).some(c => c.phone === payload.phone);
-      if (alreadyByPhone) return { error: 'already_claimed_by_phone' };
-    }
-    if (claims[payload.service_id]) return { error: 'already_taken' };
-    claims[payload.service_id] = { name: payload.name, phone: payload.phone, reason: payload.reason || '', date: new Date().toISOString() };
+    if (!claims[payload.service_id]) claims[payload.service_id] = [];
+    claims[payload.service_id].push({ name: payload.name, phone: payload.phone, email: payload.email || '', reason: payload.reason || '', date: new Date().toISOString() });
     saveDemoClaims(claims);
     return { success: true };
   }
@@ -2075,6 +2073,25 @@ const SERVICES = [
   function initialLetter(str){
     const s = String(str || '').trim();
     return s ? s[0] : '؟';
+  }
+  function dedupeServices(list){
+    const seen = new Set();
+    const result = [];
+    list.forEach(s => {
+      const key = s.name + '||' + s.provider;
+      if (seen.has(key)) return;
+      seen.add(key);
+      result.push(s);
+    });
+    return result;
+  }
+  function providerTotalCount(provider){
+    return allServices.filter(s => s.provider === provider).length;
+  }
+  function pickSlotId(service){
+    const group = allServices.filter(s => s.name === service.name && s.provider === service.provider);
+    const free = group.find(s => s.status !== 'محجوزة');
+    return (free || group[group.length - 1] || service).id;
   }
 
   const CATEGORIES = [
@@ -2125,11 +2142,11 @@ const SERVICES = [
     const chipsEl = $('catChips');
     chipsEl.innerHTML = '';
 
-    const makeChip = (key, label, count) => {
+    const makeChip = (key, label) => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'cat-chip' + (key === activeCategory ? ' active' : '');
-      btn.textContent = `${label} (${toArabicDigits(count)})`;
+      btn.textContent = label;
       btn.addEventListener('click', () => {
         if (activeCategory === key) return;
         activeCategory = key;
@@ -2138,8 +2155,8 @@ const SERVICES = [
       return btn;
     };
 
-    chipsEl.appendChild(makeChip('all', 'الكل', availableAll.length));
-    CATEGORIES.forEach(c => { if (counts[c.key]) chipsEl.appendChild(makeChip(c.key, c.label, counts[c.key])); });
+    chipsEl.appendChild(makeChip('all', 'الكل'));
+    CATEGORIES.forEach(c => { if (counts[c.key]) chipsEl.appendChild(makeChip(c.key, c.label)); });
     $('catChipsWrap').style.display = availableAll.length ? 'block' : 'none';
   }
 
@@ -2162,9 +2179,12 @@ const SERVICES = [
     $('completeBox').style.display = 'none';
     renderClaimedBanner();
 
-    const availableAll = allServices.filter(s => s.status !== 'محجوزة');
+    // كل الخدمات تبقى ظاهرة ومتاحة للتسجيل حتى لو سبق وسجّل فيها أشخاص آخرون —
+    // فريق خماس يراجع الطلبات لاحقًا ويحدد المستحق بناءً على السبب المذكور.
+    // كل خدمة تظهر مرة واحدة فقط حتى لو كررناها بالبيانات لعدة أشخاص من نفس المزوّد.
+    const dedupedAll = dedupeServices(allServices);
 
-    if (!availableAll.length){
+    if (!dedupedAll.length){
       $('catChipsWrap').style.display = 'none';
       $('servicesFrame').style.display = 'none';
       $('emptyState').style.display = 'block';
@@ -2172,9 +2192,9 @@ const SERVICES = [
     }
     $('emptyState').style.display = 'none';
 
-    renderCatChips(availableAll);
+    renderCatChips(dedupedAll);
 
-    const filtered = activeCategory === 'all' ? availableAll : availableAll.filter(s => s.cat === activeCategory);
+    const filtered = activeCategory === 'all' ? dedupedAll : dedupedAll.filter(s => s.cat === activeCategory);
     const listEl = $('servicesList');
     listEl.innerHTML = '';
     $('servicesFrame').style.display = 'block';
@@ -2193,13 +2213,8 @@ const SERVICES = [
         <div class="svc-provider">${escapeHtml(s.provider)}</div>
         <button class="btn-claim-tile" type="button">التفاصيل والحجز</button>`;
       const openHandler = () => {
-        // القيد الفوري (قبل حتى فتح النموذج) نعتمده فقط بوضع العرض التجريبي، لأن مصدر
-        // الحقيقة فيه هو localStorage نفسه. بالوضع الحقيقي (Airtable)، ما نمنع أحد من
-        // المحاولة بناءً على تخزين متصفحه القديم — القرار الفعلي يصير عند الإرسال
-        // بالتحقق المباشر من Airtable، فلو حذفتِ سجل شخص من هناك يقدر يسجّل من جديد
-        // فورًا حتى من نفس جهازه، بدون ما يبقى محجوبًا بسبب بيانات قديمة بمتصفحه.
-        // تفاصيل الخدمة يجب أن تكون متاحة دائمًا عند الضغط على البطاقة.
-        // التحقق من أهلية الحجز يتم عند الإرسال، وليس قبل عرض التفاصيل.
+        // تفاصيل الخدمة يجب أن تكون متاحة دائمًا عند الضغط على البطاقة، والحجز مفتوح
+        // لأكثر من شخص لنفس الخدمة — فريق خماس يراجع الطلبات لاحقًا ويقرر المستحق.
         openClaim(s, tile);
       };
       tile.querySelector('.btn-claim-tile').addEventListener('click', (e) => { e.stopPropagation(); openHandler(); });
@@ -2291,6 +2306,10 @@ const SERVICES = [
     $('detailDescription').textContent = categoryDescription(service);
     $('detailProvider').textContent = service.provider || 'غير مضاف';
     $('detailProviderDescription').textContent = service.providerDescription || 'لم تُضف نبذة عن مقدم الخدمة بعد';
+    const providerCount = providerTotalCount(service.provider);
+    $('detailProviderCount').textContent = providerCount
+      ? `قدّم ${service.provider} حتى الآن ${toArabicDigits(providerCount)} خدمة ضمن مبادرة خماس`
+      : '';
     const accountValue = String(service.account || '').trim();
     $('detailAccount').innerHTML = /^https?:\/\//i.test(accountValue)
       ? `<a class="detail-link" href="${escapeHtml(accountValue)}" target="_blank" rel="noopener">فتح حساب مقدم الخدمة</a>`
@@ -2353,27 +2372,36 @@ const SERVICES = [
   $('submitClaim').addEventListener('click', async () => {
     const name = $('claimName').value.trim();
     const phone = $('claimPhone').value.trim().replace(/\D/g,'');
+    const email = $('claimEmail').value.trim();
     const reason = $('claimReason').value.trim();
     const t1 = $('term1').checked, t2 = $('term2').checked;
     const errEl = $('formError');
     errEl.style.display = 'none';
 
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
     if (name.length < 2){ errEl.textContent = 'الرجاء كتابة اسمك كاملًا.'; errEl.style.display = 'block'; return; }
     if (phone.length < 9){ errEl.textContent = 'الرجاء كتابة رقم جوال صحيح.'; errEl.style.display = 'block'; return; }
+    if (!emailOk){ errEl.textContent = 'الرجاء كتابة بريد إلكتروني صحيح.'; errEl.style.display = 'block'; return; }
     if (reason.length < 5){ errEl.textContent = 'الرجاء كتابة سبب اختيارك لهذه الهدية.'; errEl.style.display = 'block'; return; }
     if (!t1 || !t2){ errEl.textContent = 'الرجاء تأكيد الإقرارين قبل الإرسال.'; errEl.style.display = 'block'; return; }
 
     const btn = $('submitClaim');
     btn.disabled = true; btn.textContent = 'جارِ الإرسال…';
 
+    // نختار أي "فتحة" متاحة لنفس الخدمة عند نفس المزوّد (إن وُجدت)، وإلا نستخدم فتحة
+    // من نفس المجموعة حتى لو محجوزة سابقًا — الحجز أصبح مفتوحًا لأكثر من شخص لكل خدمة،
+    // وفريق خماس يراجع الطلبات لاحقًا ويحدد المستحق بناءً على السبب المذكور.
+    const slotId = pickSlotId(activeService);
+
     let r;
     try {
       r = CONFIG.DEMO_MODE
-        ? claimServiceLocally({ service_id: activeService.id, service_name: activeService.name, name, phone })
+        ? claimServiceLocally({ service_id: slotId, service_name: activeService.name, name, phone, email, reason })
         : await airtableClaimService({
-            service_id: activeService.id,
+            service_id: slotId,
             service_name: activeService.name,
-            name, phone, reason,
+            name, phone, email, reason,
             provider_account: activeService.account,
             provider_name: activeService.provider
           });
@@ -2386,25 +2414,12 @@ const SERVICES = [
 
     btn.disabled = false; btn.textContent = 'إرسال الطلب';
 
-    if (r.error === 'already_claimed_by_phone'){
-      errEl.textContent = 'هذا الرقم سبق أن حجز خدمة أخرى — خدمة واحدة فقط لكل شخص.';
-      errEl.style.display = 'block';
-      lockLocally(phone);
-      return;
-    }
-    if (r.error === 'already_taken'){
-      errEl.textContent = 'عذرًا، تم حجز هذه الخدمة للتو من شخص آخر. اختر خدمة أخرى.';
-      errEl.style.display = 'block';
-      loadServices();
-      return;
-    }
     if (r.error){
       errEl.textContent = 'صار خطأ غير متوقع، حاول مرة أخرى.';
       errEl.style.display = 'block';
       return;
     }
 
-    lockLocally(phone);
     pendingAnimationIndex = document.querySelectorAll('.piece.filled').length;
     $('formWrap').style.display = 'none';
     $('successBox').style.display = 'block';
