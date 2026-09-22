@@ -2312,7 +2312,7 @@ const SERVICES = [
     $('detailProviderDescription').textContent = service.providerDescription || 'لم تُضف نبذة عن مقدم الخدمة بعد';
     const providerCount = providerTotalCount(service.provider);
     $('detailProviderCount').textContent = providerCount
-      ? `قدّم ${service.provider} حتى الآن ${toArabicDigits(providerCount)} خدمة ضمن مبادرة خماس`
+      ? `قدّم ${service.provider}  ${toArabicDigits(providerCount)} خدمة ضمن مبادرة خماس`
       : '';
     const accountValue = String(service.account || '').trim();
     $('detailAccount').innerHTML = /^https?:\/\//i.test(accountValue)
