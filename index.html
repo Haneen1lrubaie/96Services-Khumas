@@ -1522,7 +1522,7 @@ const SERVICES = [
       title: "تموضع العلامة التجارية والشخصية",
       description: "جلسة استشارية واحدة عن بُعد لمدة 30 دقيقة، تشمل مراجعة العلامة وتحليل تموضعها وتقديم توصيات تسويقية عملية للتحسين، ولا تشمل التنفيذ أو إعداد استراتيجية متكاملة.",
       provider: "عبدالرحمن البطي",
-      providerDescription: "جلسة استشارية تساعدك على فهم تموضع علامتك التجارية أو هويتك الشخصية بشكل أوضح، وتحديد فرص التحسين، مع توصيات عملية تعزز وضوحها وتميّزها أمام جمهورك.",
+      providerDescription: "خبير في تموضع العلامات التجارية والشخصية، وبناء الاستراتيجيات التسويقية، وتحسين تجربة العميل، أساعد الجهات والأفراد على إبراز وتعزيز قيمة وقوة العلامة وصياغة رسائل واضحة تعكس تميّزهم لدى الجمهور المستهدف.",
       link: "https://x.com/ablbatti?s=11",
       cat: 'الاستراتيجية والتسويق',
       logo: "logos/abudalrahman.png"
@@ -1792,18 +1792,7 @@ const SERVICES = [
       cat: 'التدريب والتطوير',
       logo: "logos/shouq-designer.jpeg"
     }
-     ,
-    {
-      id: 's121',
-      title: "عمل تشكيلي (لوحه)",
-      description: "لوحة تشكيلية أصلية مرسومة يدويًا، تحكي قصة فنية خاصة، وتصبح ملكًا للمستفيد مدى الحياة",
-      provider: "  Wafa Art",
-      providerDescription: "وفاء الشهراني، فنانة تشكيلية ومدربة فنون، متخصصة في تنفيذ اللوحات الفنية والديكورية للمشاريع والفلل والفنادق والمقاهي.",
-      link: "https://www.instagram.com/wa_art11?stkn=MTFwdXFyYjRtNGhhcg==",
-      cat: 'الفنون والهدايا',
-      logo: "logos/wafa.jpeg"
-    }
-
+    
          ,
     {
       id: 's122',
@@ -2112,11 +2101,14 @@ const SERVICES = [
     });
     return result;
   }
-  function serviceSlotCount(service){
-    // عدد الفرص المتاحة لهذه الخدمة تحديدًا (بالاسم + المزوّد)، وليس مجموع كل خدمات
-    // هذا المزوّد مجتمعة — كل خدمة تُحسب بشكل مستقل حتى لو كان لنفس المزوّد أكثر من خدمة مختلفة.
-    return allServices.filter(s => s.name === service.name && s.provider === service.provider).length;
-  }
+function serviceSlotCount(service){
+  // تخصيص الرقم الظاهر فقط لبعض مقدمي الخدمات
+  if (String(service.provider || '').trim() === 'علي البارقي') return 10;
+  if (String(service.provider || '').trim() === 'عبدالرحمن البطي') return 11;
+
+  // باقي الخدمات تبقى بنفس النظام الحالي بدون أي تغيير
+  return allServices.filter(s => s.name === service.name && s.provider === service.provider).length;
+}
   function pickSlotId(service){
     const group = allServices.filter(s => s.name === service.name && s.provider === service.provider);
     const free = group.find(s => s.status !== 'محجوزة');
