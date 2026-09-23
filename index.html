@@ -391,6 +391,108 @@ input[type="submit"],
 input[type="reset"] {
   border-radius: 10px !important;
 }
+
+/* ===================== DESKTOP & LAPTOP LAYOUT ===================== */
+/* يطبَّق فقط على الشاشات الكبيرة — الجوال والتابلت بدون أي تغيير */
+@media (min-width: 1024px){
+
+  body{ background: var(--plum-deep); }
+
+  #stage{
+    max-width: 1240px;
+    display: grid;
+    grid-template-columns: minmax(380px, 440px) minmax(0, 1fr);
+    column-gap: 48px;
+    row-gap: 0;
+    align-items: start;
+    padding: 0 40px;
+    box-shadow: 0 40px 130px rgba(0,0,0,.55);
+  }
+
+  /* الصف العلوي: الشعارات + العنوان على كامل العرض */
+  .topbar{ grid-column: 1 / -1; grid-row: 1; padding: 30px 0 10px; }
+  .hero{ grid-column: 1 / -1; grid-row: 2; padding: 16px 0 28px; }
+  .hero h1{ font-size: clamp(2.2rem, 3.2vw, 2.9rem); }
+  .hero p{ max-width: 560px; font-size: 1.05rem; }
+
+  /* العمود الأول: الخريطة ثابتة أثناء التمرير */
+  .map-wrap{
+    grid-column: 1;
+    grid-row: 3 / span 12;
+    position: sticky;
+    top: 24px;
+    align-self: start;
+    padding: 26px 26px 30px;
+    border-radius: 24px;
+    background: rgba(234,240,243,.035);
+    border: 1px solid rgba(234,240,243,.08);
+  }
+  .map-frame{ max-width: 100%; }
+
+  /* العمود الثاني: الخدمات وكل الحالات */
+  .section-label,
+  .section-title,
+  #loadingState,
+  #errorState,
+  .claimed-banner,
+  #emptyState,
+  .cat-chips-wrap,
+  .services-frame,
+  .complete-box{
+    grid-column: 2;
+  }
+
+  .section-label{ margin: 0 0 4px; text-align: right; }
+  .section-title{ text-align: right; font-size: 1.45rem; margin: 0 0 18px; }
+
+  .state-card,
+  .complete-box,
+  .claimed-banner{ margin-left: 0; margin-right: 0; }
+
+  .cat-chips{ padding: 2px 0 10px; flex-wrap: wrap; overflow: visible; }
+
+  .services-frame{
+    margin: 0 0 40px;
+    max-height: calc(100vh - 220px);
+    min-height: 420px;
+    padding: 18px 6px 18px 18px;
+  }
+  .services-frame .services{
+    grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)) !important;
+    gap: 14px;
+    padding: 0 10px 0 4px;
+  }
+  .svc-tile{ padding: 18px 14px 14px; }
+  .svc-logo-wrap{ width: 42px; height: 42px; border-radius: 12px; }
+  .svc-name{ font-size: .88rem; }
+  .svc-provider{ font-size: .72rem; }
+  .btn-claim-tile{ font-size: .8rem; padding: 9px 8px; }
+
+  /* الفوتر أسفل الصفحة على كامل العرض */
+  .site-footer{
+    grid-column: 1 / -1;
+    grid-row: 40;
+    margin: 20px -40px 0;
+    width: auto;
+    padding-inline: 40px;
+  }
+  .footer-brand{ display: flex; }
+
+  /* نافذة التفاصيل والحجز أوسع قليلًا */
+  .sheet{ max-width: 620px; padding: 30px 34px 34px; }
+}
+
+/* الشاشات الكبيرة جدًا */
+@media (min-width: 1440px){
+  #stage{
+    max-width: 1360px;
+    grid-template-columns: minmax(420px, 480px) minmax(0, 1fr);
+    column-gap: 60px;
+  }
+  .services-frame .services{
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)) !important;
+  }
+}
 </style>
 </head>
 <body>
