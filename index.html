@@ -2103,12 +2103,16 @@ const SERVICES = [
   }
 function serviceSlotCount(service){
   // تخصيص الرقم الظاهر فقط لبعض مقدمي الخدمات
-  if (String(service.provider || '').trim() === 'علي البارقي') return 10;
-  if (String(service.provider || '').trim() === 'عبدالرحمن البطي') return 11;
-  if (String(service.provider || '').trim().toLowerCase() === 'نادي Fitness Lines') return 3;
+  const provider = String(service.provider || '').trim();
+
+  if (provider === 'علي البارقي') return 10;
+  if (provider === 'عبدالرحمن البطي') return 11;
+  if (provider === 'نادي Fitness Lines') return 3;
 
   // باقي الخدمات تبقى بنفس النظام الحالي بدون أي تغيير
-  return allServices.filter(s => s.name === service.name && s.provider === service.provider).length;
+  return allServices.filter(
+    s => s.name === service.name && s.provider === service.provider
+  ).length;
 }
   function pickSlotId(service){
     const group = allServices.filter(s => s.name === service.name && s.provider === service.provider);
