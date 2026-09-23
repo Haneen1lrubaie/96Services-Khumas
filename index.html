@@ -391,6 +391,89 @@ input[type="submit"],
 input[type="reset"] {
   border-radius: 10px !important;
 }
+
+/* ===================== DESKTOP & LAPTOP LAYOUT ===================== */
+/* ===================== DESKTOP & LAPTOP LAYOUT ===================== */
+/* نفس ترتيب الجوال (تحت بعض) لكن بمقاسات مريحة للشاشات الكبيرة */
+@media (min-width: 1024px){
+
+  body{ background: var(--plum-deep); }
+
+  #stage{
+    max-width: 1100px;
+    box-shadow: 0 40px 130px rgba(0,0,0,.55);
+  }
+
+  /* الشعارات */
+  .topbar{ padding: 30px 48px 10px; }
+
+  /* العنوان */
+  .hero{ padding: 26px 48px 10px; }
+  .hero h1{ font-size: clamp(2.3rem, 3.2vw, 3rem); }
+  .hero p{ max-width: 560px; font-size: 1.05rem; }
+
+  /* الخريطة: أكبر ومتوسطة */
+  .map-wrap{ padding: 30px 48px 10px; gap: 20px; }
+  .map-frame{ max-width: 600px; }
+  .map-counter .num{ font-size: 2.1rem; }
+  .map-counter .of{ font-size: .95rem; }
+  .progress-track{ max-width: 460px; height: 8px; }
+
+  /* عناوين القسم */
+  .section-label{ margin-top: 44px; font-size: .85rem; }
+  .section-title{ font-size: 1.5rem; margin-bottom: 24px; }
+
+  /* الحالات والبانر */
+  .state-card,
+  .complete-box,
+  .claimed-banner{
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* التصنيفات: تنلف بدل التمرير الأفقي */
+  .cat-chips{
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow: visible;
+    padding: 2px 48px 10px;
+  }
+
+  /* إطار الخدمات: أعرض وأعلى */
+  .services-frame{
+    margin: 0 48px 48px;
+    max-height: 72vh;
+    padding: 20px 8px 20px 20px;
+  }
+  .services-frame .services{
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+    gap: 16px;
+    padding: 0 12px 0 4px;
+  }
+  .svc-tile{ padding: 20px 14px 14px; }
+  .svc-logo-wrap{ width: 44px; height: 44px; border-radius: 12px; }
+  .svc-name{ font-size: .9rem; }
+  .svc-provider{ font-size: .73rem; }
+  .btn-claim-tile{ font-size: .82rem; padding: 9px 8px; }
+
+  /* الفوتر */
+  .site-footer{ padding-inline: 48px; }
+  .footer-brand{ display: flex; }
+
+  /* نافذة التفاصيل والحجز */
+  .sheet{ max-width: 620px; padding: 30px 34px 34px; }
+}
+
+/* الشاشات الكبيرة جدًا */
+@media (min-width: 1440px){
+  #stage{ max-width: 1240px; }
+  .map-frame{ max-width: 660px; }
+  .services-frame .services{
+    grid-template-columns: repeat(auto-fill, minmax(195px, 1fr)) !important;
+  }
+}
+
 </style>
 </head>
 <body>
