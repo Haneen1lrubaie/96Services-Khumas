@@ -475,6 +475,20 @@ input[type="reset"] {
 }
 
 </style>
+
+<style>
+.progress-fill { display: none !important; }
+</style>
+
+<style>
+.progress-bar,
+.progress-container,
+.progress-track,
+[role="progressbar"] {
+    display: none !important;
+}
+</style>
+
 </head>
 <body>
 
@@ -512,7 +526,7 @@ input[type="reset"] {
         <g clip-path="url(#ksaClip)" id="piecesLayer"></g>
       </svg>
     </div>
-    <div class="map-counter"><span class="num text-grad" id="counterNum">٠</span><span class="of">من ٩٦ قطعة اكتملت في الخريطة</span></div>
+    <div class="map-counter" style="display:none;"><span class="num text-grad" id="counterNum">٠</span><span class="of">من ٩٦ قطعة اكتملت في الخريطة</span></div>
     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
   </div>
 
