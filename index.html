@@ -2198,6 +2198,36 @@ const SERVICES = [
   let activeService = null;
   let activeCardRect = null;
   let pendingAnimationIndex = null;
+  // خدمات مخفية من العرض (موجودة كـ comment في SERVICES) لكنها تبقى محسوبة في تعبئة خريطة السعودية،
+  // عشان الخريطة ما تنقص بعد إخفائها. لو رجّعتي خدمة للعرض، احذفيها من هنا.
+  const HIDDEN_SERVICES = [
+    { id: 's38', title: "كلاسات بيلاتس ريفورمر نسائية ", provider: "pilates studio" },
+    { id: 's48', title: "استشارة تطوير شخصي مهني", provider: "محمد بنتن" },
+    { id: 's50', title: "كلاسات بيلاتس ريفورمر نسائية ", provider: "pilates studio" },
+    { id: 's63', title: "استشارة تطوير شخصي مهني", provider: "محمد بنتن" },
+    { id: 's65', title: "كلاسات بيلاتس ريفورمر نسائية ", provider: "pilates studio" },
+    { id: 's78', title: "استشارة تطوير شخصي مهني", provider: "محمد بنتن" },
+    { id: 's80', title: "كلاسات بيلاتس ريفورمر نسائية ", provider: "pilates studio" },
+    { id: 's84', title: "   جلسة اتزان نفسي", provider: "د. مريم الحربي" },
+    { id: 's89', title: "جلسة معالجات طبيعية  للشعر", provider: "صالون تتش سبـا للخدمات المنزلية " },
+    { id: 's90', title: "جدول غذائي مصمم حسب الهدف", provider: "كوتش خلود" },
+    { id: 's93', title: "بوكية ورد", provider: "فنون الهدية" },
+    { id: 's98', title: "لوحة مرسومة يدوياً مستلهمه من التراث والطبيعة الجنوبية", provider: "فيّ الشهراني" },
+    { id: 's104', title: "اصيص برسمة خاصة", provider: "شموخ " },
+    { id: 's105', title: "   بوكس سوشي مشكل كبير", provider: "مطعم سوشي جوجو " },
+    { id: 's108', title: "استشارة تطوير شخصي مهني", provider: "محمد بنتن" },
+    { id: 's111', title: "كلاسات بيلاتس ريفورمر نسائية ", provider: "pilates studio" },
+    { id: 's118', title: "جلسة تقييم الجانب النفسي والشخصي\nلرئد الأعمال", provider: "مجتمع مرايا" },
+    { id: 's119', title: "عباية من شوق ديزاين ", provider: "Shoug Designer  " },
+    { id: 's122', title: " تنظيف الأسنان | Teeth Cleaning ", provider: " مستشفى الحياة الوطني " },
+    { id: 's125', title: " برنامج متابعة مع أخصائي تغذية | Dietetic Follow-up Program", provider: " مستشفى الحياة الوطني " }
+  ];
+  let hiddenClaimedKeys = new Set();
+  function computeHiddenClaimed(isClaimed){
+    hiddenClaimedKeys = new Set(
+      HIDDEN_SERVICES.filter(s => isClaimed(s.id)).map(s => s.title + '||' + s.provider)
+    );
+  }
   let allServices = [];
 
   function escapeHtml(str){
@@ -2240,7 +2270,7 @@ function serviceSlotCount(service){
     // عدد الخدمات المميّزة (بالاسم + المزوّد) التي حصلت على حجز واحد على الأقل —
     // وليس عدد السجلات الخام ولا عدد الأشخاص المسجّلين، حتى لا تمتلئ القطع بشكل غير
     // صحيح لو سجّل أكثر من شخص بنفس الخدمة.
-    const seen = new Set();
+    const seen = new Set(hiddenClaimedKeys); // يشمل الخدمات المخفية المحجوزة
     allServices.forEach(s => {
       if (s.status === 'محجوزة') seen.add(s.name + '||' + s.provider);
     });
@@ -2382,6 +2412,7 @@ function serviceSlotCount(service){
   async function loadServices(){
     if (CONFIG.DEMO_MODE){
       const claims = getDemoClaims();
+      computeHiddenClaimed(id => !!claims[id]);
       allServices = SERVICES.map(s => ({
         id: s.id,
         name: s.title,
@@ -2400,6 +2431,7 @@ function serviceSlotCount(service){
     }
     try {
       const claimedIds = await fetchClaimedServiceIds();
+      computeHiddenClaimed(id => claimedIds.has(id));
 
       // تصحيح تلقائي: لو المتصفح متذكّر إنه سجّل من قبل، لكن رقمه ما عاد مرتبطًا بأي حجز
       // حالي بـ Airtable (يعني الإدارة حذفت حجزه)، نشيل القفل المحلي فورًا حتى يقدر يسجّل
